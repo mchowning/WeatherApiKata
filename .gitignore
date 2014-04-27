@@ -1,0 +1,17 @@
+
+.DS_Store
+*.xcworkspace
+/Pods/
+xcuserdata
+
+# CI
+/.bundle/
+/bin/
+/project_temp/
+/code_coverage/
+/code-coverage/
+/test-reports/
+/build/
+
+# AppCode
+.idea/
