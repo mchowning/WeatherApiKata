@@ -7,7 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "WAKWeatherService.h"
 
 @interface WAKViewController : UIViewController
-
+@property (weak, nonatomic) IBOutlet UILabel *currentTempLabel;
+@property (strong, nonatomic) WAKWeatherService *weatherService;
 @end

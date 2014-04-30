@@ -1,10 +1,8 @@
-# WeatherUnderground API Kata
+# WeatherUnderground API Kata (Level 1)
 
-## LEVEL 1
+This is a practice exercise for accessing a public API using TDD practices in iOS and objective-C.  The goal of this exercise is to use TDD practices to create a basic app that updates the screen with the current temperature for Detroit, Michigan (or your preferred location), as reported by Weather Underground's API.  It assumes usage of AFNetworking and the Kiwi testing framework.  
 
-This is a practice exercise for accessing a public API using TDD practices in iOS and objective-C.  It assumes usage of AFNetworking and the Kiwi testing framework.
-
-The goal of this exercise is to use TDD practices to create a basic app that updates the screen with the current temperature for Detroit, Michigan (or your preferred location), as reported by Weather Underground's API.  This exercise is designed to be used as a kata, i.e., as an exercise that is repeated multiple times.  The  kata is broken down into different 'levels'.  The levels start with level 1 and proceed up to level _____.  Each level has its own branch with a unique README.md instructions file dedicated to it:
+This exercise is designed to be used as a kata, i.e., as an exercise that is repeated multiple times.  The  kata is broken down into different 'levels'.  The levels start with level 1 and proceed up to level _____.  Each level has its own branch with a unique README.md instructions file dedicated to it:
 
 LINK
 
@@ -14,11 +12,11 @@ LINK
 
 LINK
 
-Level 1 is the easiest because the instructions walk you through completion of the kata step by step and provides all the required code.  It's purpose is to familiarize you with the steps that are necessary to complete the exercise.  As with all the levels, you should not move on to the next level until you feel completely comfortable, almost to the point of being bored, with the current level.  In other words, you should not be afraid to repeat the levels.
+Level 1 should be your first level because the instructions walk you through completion of the kata step by step and provides all the required code.  Its purpose is to familiarize you with the steps that are necessary to complete the exercise.  As with all the levels, you should not move on to the next level until you feel completely comfortable, almost to the point of being bored, with the current level.  In other words, don't be afraid to repeat the levels, the repitition is what makes this a kata.
 
-Level 2 is a step up in difficulty because although it still guides you through all of the steps necessary to complete the kata, it no longer provides you with the necessary code.  You have to fill that in yourself (that doesn't mean you aren't allowed to research online, it just means you shouldn't look back to the Level 1 instructions and copy the code from there).  Once you feel comfortable with Level 2, you can then proceed to Level 3, which ....................  
+Level 2 is a step up in difficulty. It still guides you through all of the steps necessary to complete the kata, it no longer provides you with the necessary code.  You have to fill that in yourself (that doesn't mean you aren't allowed to research online, it just means you shouldn't look back to the Level 1 instructions and copy the code from there).  Once you feel comfortable with Level 2, you can then proceed to Level 3.
 
-Level 3 ............................
+Level 3 is only a small step short of completing the kata without any help.  It provides you with the general outline of the steps needed to complete the kata, but it doesn't give you much detail about the steps.
 
 The last Level is to throw away these instructions because you don't need them anymore.  Trust me, you're going to get there sooner than you think!
 
@@ -30,6 +28,9 @@ The last Level is to throw away these instructions because you don't need them a
 
 3. I have made some of the methods and properties in the following code public for the sake of keeping this example simple.  It is definitely worth learning, however, how to keep as much of your code private as possible even when using tests.  It will help you write much cleaner code.
 
+4.	I plan to keep updating and improving this kata as I get feedback (hint, hint), so if you do fork or clone it, make sure you check back in and periodically pull the latest changes.
+
+5. 	Once you get to the higher levels where the kata instructions are less specific, don't worry if you do not follow the steps in the kata perfectly.  As long as you complete the kata using good TDD practices, you're fine.  In fact, I think that veering from the kata somewhat to do things your own way is a great way to gain a better understanding of the kata (and why the decisions I made regarding how to complete it were, or in some cases were not, the best decisions).  For at least level 1, however, it is probably a good idea to stick to the instructions in the kata.
 
 ## Setup
 
@@ -708,7 +709,7 @@ You should have no errors.  Note that the describe block is generally describing
 			
 ## WAKViewController	
 				
-We're going to start by deviating a bit from true TDD because we need to do a bit of UI setup that does not fit well with TDD.  First thing is to create the WAKViewController class (extending UIViewController) with a xib file.  This class should have WeatherApiKata as its only target.  On the Xib file drag a UILabel onto the screen somewhere.  Feel free to give it some text like "Current Temperature" and center it if you want, but that is not important to this exercise.  Next, create an outlet for that label in the WAKViewController.h class.
+We're going to start by deviating a bit from true TDD because we need to do a bit of UI setup that does not fit well with TDD.  First thing is to create the WAKViewController class (extending UIViewController) with a xib file.  This class should have WeatherApiKata as its only target.  On the Xib file drag a UILabel onto the screen somewhere.  Feel free to give it some text like "Loading current temperature..." and center it if you want, but that is not important to this exercise.  Next, create an outlet for that label in the WAKViewController.h class.
 
 ```
 @interface WAKViewController : UIViewController
@@ -737,7 +738,7 @@ describe(@"WAKViewController", ^{
 SPEC_END
 ```
 
-Now in order to get the temperature from WAKWeatherService, our WAKViewController is going to need an instance of the WAKWeatherService.  So let's write a test to verify that the WAKViewController has a WAKWeatherService property that is not nil.  Since we don't care about getting the temperature until the view is actually loaded, let's set up our test so that it doesn't check to insure that the property is not nil until after the WAKViewController's viewDidLoad: method has been called (that method will be called by the system anytime the WAKViewController is loaded onto the screen).
+Now in order to get the temperature from WAKWeatherService, our WAKViewController is going to need an instance of the WAKWeatherService.  So let's write a test to verify that the WAKViewController has a WAKWeatherService property that is not nil.  We'll just do this in the initializer for the WAKViewController.
 
 _WAKViewControllerSpec.m:_
 
@@ -745,7 +746,6 @@ _WAKViewControllerSpec.m:_
 describe(@"WAKViewController", ^{
 	it(@"has a WAKWeatherService property that is not nil", ^{
 		WAKViewController *viewController = [[WAKViewController alloc] init];
-		[viewController viewDidLoad];
 		[[viewController.weatherService should] notBeNil];
 	});
 });
@@ -765,24 +765,138 @@ _WAKViewController.h:_
 ```
 Your test should now compile and fail.  So let's fix the test by having our WAKViewController create a WAKWeatherService object and assign it to the weather service property when viewDidLoad: is called.
 
-_WAKViewController.h:_
+_Note that Xcode probably generated most of the following code for you automatically when you created WAKViewController with the associated xib file._ 
+
+_WAKViewController.m:_
 
 ```
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	self.weatherService = [[WAKWeatherService alloc] init];
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    if (self) {
+        self.weatherService = [[WAKWeatherService alloc] init];
+    }
+    return self;
 }
 ```
 Run your tests again, and you should be back to passing.
 
-### Get the current temperature from the WAKWeatherService class
+### Get the current temperature from the WAKWeatherService class to the screen
 
-[ FILL IN ]
+If you recall, the getCurrentTemp method for our WAKWeatherService looks like this:
+
+```
+- (void)getCurrentTemp:(void (^)(NSInteger))successBlock;
+```
+
+That means that it takes a single parameter, which is a block that will be executed upon a successful network call.  Furthermore, that block itself will be executed with a single NSInteger argument, which will represent the current temperature as reported by Weather Underground. Similar to how we tested the WAKWeatherService, let's test our WAKViewController by checking to make sure that execution of the block passed into the getCurrentTemp: method does what we want (i.e., sets the text of the UILabel we made to relfect the current temperature).  This means that we will first need to use a spy to capture the blcok our WAKViewController passes to the WAKWeatherService in the getCurrentTemp: method.  Of course we will mock the WAKWeatherService in order to avoid there being an actual network call.  Second, we will simulate a successful network call by manually running the success block we captured.  When we run that success block, we will pass in a particular temperature.  Last, our test will be that the IBOutlet property for our UILabel has the setText: method called on it with the correct temperature as its argument.  You end up with a test like this.
+
+_WAKViewControllerSpec.m:_
+
+```
+it(@"updates the screen with the temperature returned by the WAKWeatherService", ^{
+    WAKViewController *viewController = [[WAKViewController alloc] init];
+    viewController.weatherService = [WAKWeatherService nullMock];
+    
+    	/* Set up the test representing what we expect to happen by
+    	   the end of this test (screen UILabel is updated with current 
+    	   temp */
+    viewController.currentTempLabel = [UILabel nullMock];
+    NSInteger simulatedTemp = 73;
+    NSString *simulatedTempAsString = [@(simulatedTemp) stringValue];
+    [[viewController.currentTempLabel should] receive:@selector(setText:)
+                                        withArguments:simulatedTempAsString];
+    
+    	/* Create spy to capture the argument passed when the WAKWeatherService is
+    	   called with the getCurrentTemp: method */
+    KWCaptureSpy *spy = [viewController.weatherService captureArgument:@selector(getCurrentTemp:)
+                                                               atIndex:0];
+    	/* Simulate the view controller loading onto the screen (which should result
+    	   in the getCurrentTemp: method being called */
+    [viewController viewDidLoad];
+    
+    	/* Get back the block that our spy captured from the getCurrentTemp: method call */
+    void (^capturedSuccessBlock)(NSInteger) = spy.argument;
+    
+    	/* Simulate a successful network call that returned a temperature of 73 degrees */
+    capturedSuccessBlock(simulatedTemp); 
+});
+```
+
+This test should fail.  One tricky thing to note in the above example is why we mocked out the UILabel property (viewController.currentTempLabel).  We did that because such a view element is only created as a part of the UIViewController lifecycle.  We are intentionally not recreating the entire UIViewController lifecycle, however, so if we did not assign a mock to the currentTempLabel UILabel property, then that property would just be nil.  As such, our test would always fail because we could never successfully set the text of a nil object.
+
+Now all we need to do to get the test to pass is to creat a success block that converts the NSInteger input into the success block into a string and uses that string to update the UILabel being displayed.
+
+_WAKViewController.m:_
+
+```
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    // Create the success block we're going to pass into the getCurrentTemp: method
+    void(^mySuccessBlock)(NSInteger) = ^(NSInteger currentTemperature) {
+        NSString *stringTemp = [@(currentTemperature) stringValue];
+        UILabel *tempLabel = self.currentTempLabel;
+        [tempLabel setText:stringTemp];
+    };
+    
+    // Call getCurrentTemp on the weather service and pass the success block
+    [self.weatherService getCurrentTemp:mySuccessBlock];
+}
+
+```
+Now all your tests should pass.  We're almost done.  Only thing left is to make sure that our WAKViewController is actualy loaded when the program runs.
 
 ### Make sure that the AppDelegate loads the WAKViewController
 
-[ FILL IN ]
+Keeping this simple, what we want is just for our AppDelegate to assign the windows root view controller to be an instance of WAKViewController when the application:didFinishLaunchingWithOptions: method is called.  Compared to what we've already done, this test will probably seem relatively easy.  Since we're testing a new class (the WAKAppDelegate), let's stick it in a new test spec file.
 
+_WAKAppDelegateSpec.m:_
 
-# ALL DONE!
+```
+#import <Kiwi/Kiwi.h>
+#import "WAKAppDelegate.h"
+#import "WAKViewController.h"
+
+SPEC_BEGIN(WAKAppDelegateSpec)
+
+describe(@"WAKAppDelegate", ^{
+    
+    it(@"assigns a WAKViewController to be the rootViewController on load", ^{
+        WAKAppDelegate *appDelegate = [[WAKAppDelegate alloc] init];
+        
+            /* Manually run the application:didFinisheLaunchingWithOptions: method,
+               passing nil arguments because our test should be affected by the arguments */
+        [appDelegate application:nil didFinishLaunchingWithOptions:nil];
+        
+        [[appDelegate.window.rootViewController should] beKindOfClass:[WAKViewController class]];
+    });
+		
+});
+	
+SPEC_END
+```
+
+This test should compile and fail.  Getting it to pass is easy enough though, just go to your WAKAppDelegate.m file and in the application:didFinishLaunchingWithOptions: method you should have a spot where Xcode has left a comment identifying it as the override point for customization after the application has launched.  Just delete that comment and replace it with a line of code assigning an isntance of the WAKViewController to be the WAKAppDelegate window's rootViewController.
+
+_WAKAppDelegate.m:_
+
+```
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    	/* Here's the line of code to add */
+    self.window.rootViewController = [[WAKViewController alloc] init];
+    
+    self.window.backgroundColor = [UIColor whiteColor];
+    [self.window makeKeyAndVisible];
+    return YES;
+}
+```
+Rerun your tests and they should all pass now.  
+
+You're all done!  Try running your app (not your tests), and it should load up an empty screen displaying the UILabel's default text for a second or so, and then (assuming you are connected to the internet) it will update with the temperature.
+
+## Congrats!
 

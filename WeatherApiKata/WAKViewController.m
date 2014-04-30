@@ -18,7 +18,7 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        self.weatherService = [[WAKWeatherService alloc] init];
     }
     return self;
 }
@@ -26,7 +26,16 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
+    // Create the success block we're going to pass into the getCurrentTemp: method
+    void(^mySuccessBlock)(NSInteger) = ^(NSInteger currentTemperature) {
+        NSString *stringTemp = [@(currentTemperature) stringValue];
+        UILabel *tempLabel = self.currentTempLabel;
+        [tempLabel setText:stringTemp];
+    };
+    
+    // Call getCurrentTemp on the weather service and pass the success block
+    [self.weatherService getCurrentTemp:mySuccessBlock];
 }
 
 - (void)didReceiveMemoryWarning
