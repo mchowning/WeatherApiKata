@@ -17,7 +17,7 @@ describe(@"WAKAppDelegate", ^{
     it(@"assigns a WAKViewController to be the rootViewController on load", ^{
         WAKAppDelegate *appDelegate = [[WAKAppDelegate alloc] init];
         
-            /* Manually run the application:didFinisheLaunchingWithOptions: method,
+            /* Manually run the application:didFinishLaunchingWithOptions: method,
                passing nil arguments because our test should be affected by the arguments */
         [appDelegate application:nil didFinishLaunchingWithOptions:nil];
         
