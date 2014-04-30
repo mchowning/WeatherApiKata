@@ -1,4 +1,4 @@
-# WeatherUnderground API Kata (Level 1)
+# WeatherUnderground API Kata (Level 2)
 
 This is a practice exercise for accessing a public API using TDD practices in iOS and objective-C.  The goal of this exercise is to use TDD practices to create a basic app that updates the screen with the current temperature for Detroit, Michigan (or your preferred location), as reported by Weather Underground's API.  It assumes usage of AFNetworking and the Kiwi testing framework.  
 
@@ -54,7 +54,7 @@ You will need a free Weather Underground user key to complete this kata.  You ca
 
 # The Kata (finally)
 
-# Level 1
+# Level 2
 
 Let's start with a brief overview.  Our program is going to have two classes along with a xib file.  The first class that we will create is the WAKWeatherService class.  It will be the job of this class to go and get the current temperature from the Weather Underground API and to make that result available to other classes.  The next class we will create is the WAKViewController.  This class is responsible for instantiating a WAKWeatherService, telling it to go get the current temperature, and then to display the result on the screen.  Alright, let's get started. 
 
@@ -62,35 +62,13 @@ Let's start with a brief overview.  Our program is going to have two classes alo
 
 We're working on test-development so we need to start with a test class.  This class should go in the "api-kataTests" folder and only have the api-kataTests target selected.  
 
-Setup an empty Kiwi spec for testing WAKWeatherService:
-	
- This is the basic setup that must be contained within any Kiwi file:
- 	  
-```
-#import <Kiwi/Kiwi.h>
-
-SPEC_BEGIN(WAKWeatherServiceSpec)
-
-describe(@"WAKWeatherService", ^{
-
-)};
-
-SPEC_END
-```
- 			   		    
-You should have no errors.  Note that the describe block is generally describing what object or class is going to be tested.
+Setup an empty Kiwi spec for testing WAKWeatherService.  You should have no errors.
 
 ### Create a getCurrentTemp method for the WAKWeatherService
 	    
 1. Import WAKWeatherService into the test
 
-	We want our program to have a WAKWeatherService class, so let's use wishful thinking and put it into our test.  First, add the appropriate import statement:
-    	  
-	```
-	#import "WAKWeatherService.h"
-	```
-	    
-	That should throw up a nice big red error because there we haven't actually made a WAKWeatherService class yet.  We're going to count that as a failed test, which means that we get to write actual non-test code in order to get our test to "pass" (which in this case, just means not throwing up an error).
+	We want our program to have a WAKWeatherService class, so let's use wishful thinking and put it into our test.  First, add the appropriate import statement for WAKWeatherService.  That should throw up a nice big red error because there we haven't actually made a WAKWeatherService class yet.  We're going to count that as a failed test, which means that we get to write actual non-test code in order to get our test to "pass" (which in this case, just means not throwing up an error).
 	    
 2. Create a WAKWeatherService class in your project.
 
@@ -99,15 +77,6 @@ You should have no errors.  Note that the describe block is generally describing
 3. Test whether the WAKWeatherService has a getCurrentTemp method
 
 	Time to actually write a real test.  In order to see if the WAKWeatherService has a getCurrentTemp method, we're going to test whether a WAKWeatherService object will respond to a method with the name getCurrentTemp.  A method's name is called its "selector", so we'll actually test whether WAKWeatherService responds to a getCurrentTemp selector.  The first step is to actually create a specific instance of a WAKWeatherService in our test.  Then we will have Kiwi test wether that specific object responds to a selector with the name getCurrentTemp.  Like all Kiwi tests, this will all be done within an "it" block within the describe block that we already wrote.
-
-	```
-	it(@"has a getCurrentTemp method", ^{
-	    WAKWeatherService *weatherService = [[WAKWeatherService alloc] init];
-	    [[weatherService should] respondToSelector:@selector(getCurrentTemp)];
-	});			    
-	```  			   
-	    
-	Note that the string in the it block ("has a getCurrentTemp method") is written so that if there is an error, the test result printout, which will append this string to the string in the describe block ("WAKWeatherService"), provides a description of the desired behavior that is easy to read: "WAKWeatherService has a getCurrentTemp method".
 		    
 	Run this test and you should get a test failure because the WAKWeatherService does not have any method named getCurrentTemp.  In fact, recent versions of Xcode will actually give you a warning about this by stating that "@selector"(getCurrentTemp)" is an undeclared selector.
 		    
@@ -115,21 +84,7 @@ You should have no errors.  Note that the describe block is generally describing
 
 	First, go to your WAKWeatherService.h file and add the method to the public interface (because we want other classes, including our test, to be able to see it).  Since we do not have any tests addressing what, if any, kind of return value this method will have, we will leave it void until we have a test that requires something else.
 			    
-	_WAKWeatherService.h:_
-	    
-	```
-	- (void)getCurrentTemp; 
-	```
-	    
 	If you rerun your tests now, you will see that it still fails.  This is because the WAKWeatherService will not "respond" to the getCurrentTemp selector for the purposes of our test until it has some kind of implementation (even an empy implementation) in the .m file, so let's do that.
-	    
-	_WAKWeatherService.m_
-	   
-	```
-	- (void) getCurrentTemp {
-	    
-	}
-	```
 
 ### Give the WAKWeatherService class a property that contains the AFNetowrking object that will make a network call to the Weather Underground API.
 
@@ -143,140 +98,41 @@ You should have no errors.  Note that the describe block is generally describing
 	    
 2. Give the WAKWeatherService an AFHTTPRequestOperationManager
 
-	The AFHTTPRequestOperationManager is going to be a "collaborator" with our WAKWeatherService class (i.e., our AFHTTPReuqestOperationManager is going to use this object to accomplish what it wants to do).  In order for our WAKWeatherService class to use that collaborator, and for our tests to test it, we are going to give our WAKWeatherService class a property (named "manager") that contains an AFHTTPRequestOperationManager object.  Let's add a test for that object in a new it block:
-	    
-	```
-	it(@"has an AFHTTPRequestOperationManager object stored as a property", ^{
-	    WAKWeatherService *weatherService = [[WAKWeatherService alloc] init];
-	    [[weatherService.manager should] beKindOfClass:[AFHTTPRequestOperationManager class]];
-	});
-	```
+	The AFHTTPRequestOperationManager is going to be a "collaborator" with our WAKWeatherService class (i.e., our AFHTTPReuqestOperationManager is going to use this object to accomplish what it wants to do).  In order for our WAKWeatherService class to use that collaborator, and for our tests to test it, we are going to give our WAKWeatherService class a property (named "manager") that contains an AFHTTPRequestOperationManager object.  Let's add a test for that object in a new it block.
 	    
 	You should get an error before you even run this test because we are trying to access a manager property on our WAKWeatherService object, but no such property exists yet.  Let's treat that as a test failure and fix it.
 	    
 3. Create a test for whether there is an AFHTTPRequestOperationManager property in our WAKWeatherService class
 
-	To do this, we're just going to create the relevant property in the WAKWeatherService.h file.  Note that the reason we're declaring this property in the .h file instead of the .m file is so that our test can see it.  Usually it is not a good idea to expose a property (or method) just so that your test can see it (and there are ways we could avoid doing it here--if you're feeling ambitious, look into categories), but for the sake of keeping the codr straighforward in this kata, we're just going to make this property public by putting it in the .h file:
+	To do this, we're just going to create the relevant property in the WAKWeatherService.h file.  Note that the reason we're declaring this property in the .h file instead of the .m file is so that our test can see it.  Usually it is not a good idea to expose a property (or method) just so that your test can see it (and there are ways we could avoid doing it here--if you're feeling ambitious, look into categories), but for the sake of keeping the codr straighforward in this kata, we're just going to make this property public by putting it in the .h file.
 		    
-	_WAKWeatherService.h:_
-	    
-	```
-	#import <AFNetworking.h>
-	```
-	. . .
-	     
-	```
-	@property (nonatomic, strong) AFHTTPRequestOperationManager *manager;
-	```
-	    
 	The error in your test should now be gone.
 		   
 4. Create an AFHTTPRequestOperationManager and assign it to the WAKWeatherService class's manager property.
 
 	Although our test is no longer throwing a compilation error, if you run it, it fails because it expected the manager property on our WAKWeatherService object to not be nil.  The problem is that we never create an actual AFHTTPRequstOperationManager and assign it to the manager property, so when the test looks to see if the object that is assigned to the manager property is of the AFHTTPRequestOperationManager class it fails because the manager is not an AFHTTPRequestOperationManager, it's nil.  A simple way to do this is to override the init method for our WAKWeatherService class and have it assign an AFHTTPRequestOperationManager object to the manager property.  
 		    
-	_Note that most of the code in the snippet below is boilerplate that Xcode will autocomplete for you if you start typing init at the beginning of a line_
-		    
-	_WAKWeatherService.m:_
-	    
-    ```
-	- (instancetype)init {
-	    self = [super init];
-	    if (self) {
-	        self.manager = [[AFHTTPRequestOperationManager alloc] init];
-	    }
-	    return self;
-	}
-	```
+	_Note that most of the code in the init method is boilerplate that Xcode will autocomplete for you if you start typing init at the beginning of a line and press enter_
 	
 	Your test should now pass because when you initialize the WAKWeatherService in the first line of your test, you are running the init method, which creates an AFHTTPRequestOperationManager and assigns it to the WAKWeatherService's manager property.
                
-    Anytime all of your tests are green, you should look to see if there is anything you can refactor.  One common red flag for possible refactoring is when you have duplicated code.  If you look at our tests, you can see that we have declare the WAKWeatehrService object in both of our tests.  Furthermore, because this is the object we are testing, it is likely that we will need this object in any future tests as well.  Therefore, we should refactor the creation of that object into a beforeEach block.  To do this we first need to declare a WAKWeatherService variable that is accessible in all of the relevant blocks.  Then we need to fill that variable with a new WAKWeatherService object bofore each test by using a beforeEach block.  This lets us remove the declaration of the WAKWeatherService object from each of our tests.   
-           
-    _WAKWeatherServiceSpec.m_
-         
-    ```
-    describe(@"WAKWeatherService", ^{
+    Any time all of your tests are green, you should look to see if there is anything you can refactor.  One common red flag for possible refactoring is when you have duplicated code.  If you look at our tests, you can see that we have declare the WAKWeatehrService object in both of our tests.  Furthermore, because this is the object we are testing, it is likely that we will need this object in any future tests as well.  Therefore, we should refactor the creation of that object into a beforeEach block.  To do this we first need to declare a WAKWeatherService variable that is accessible in all of the relevant blocks.  Then we need to fill that variable with a new WAKWeatherService object bofore each test by using a beforeEach block.  This lets us remove the declaration of the WAKWeatherService object from each of our tests.   
              
-        __block WAKWeatherService *weatherService;
-        beforeEach(^{
-            weatherService = [[WAKWeatherService alloc] init];
-        });
-             
-        it(@"has a getCurrentTemp method", ^{
-            [[sut should] respondToSelector:@selector(getCurrentTemp)];
-        });
-             
-        it(@"has an AFHTTPRequestOperationManager object stored as a property", ^{
-            [[sut.manager should] beKindOfClass:[AFHTTPRequestOperationManager class]];
-        });
-    });
-    ```
-         
     Go ahead and rerun your tests in order to make sure they both still pass
            
-### Insure that the proper method call is made on the WAKWeatherService's manager property when getCurrentTemp is called.
+### Insure that the proper method call is made on the WAKWeatherService's manager property when getCurrentTemp is called
    
 1. Create a test insuring that the proper method is called on the manager
        
     Earlier when we researched AFNetworking and saw how it performed the get request we wanted we saw that it involved calling a specific selector (GET:parameters:success:failure:) on a AFHTTPRequestOperationManager.  We now want to make sure that method is WAKWeatherService calls that method on its manager property (which is an AFHTTPRequestOperationManager.  In particular, we want the WAKWeatherService to do this anytime its getCurrentTemp method is called so that it can actually get the current temperature from teh Weather Underground API.  Because this test and many of our future tests are all going to be testing teh behavior of the WAKWeatherService when its getCurrentTemp method is called, we're going to put these tests into a "context" block in order to keep our tests organized.  Let's go ahead and add that to the end of our test now.
-           
-    _WAKWeatherServiceSpec.m:_
-       
-    ```
-    describe(@"WAKWeatherService", ^{
-           
-        __block WAKWeatherService *weatherService;
-        beforeEach(^{
-            weatherService = [[WAKWeatherService alloc] init];
-        });
-           
-        it(@"has a getCurrentTemp method", ^{
-            [[sut should] respondToSelector:@selector(getCurrentTemp)];
-        });
-           
-        it(@"has an AFHTTPRequestOperationManager object stored as a property", ^{
-            [[sut.manager should] beKindOfClass:[AFHTTPRequestOperationManager class]];
-        });
-           
-        context(@"when its getCurrentTemp method is called", ^{
-           
-        });
-    });
-    ```
-       
+               
     Now we want to actually add the test that says we expect the GET:parameters:success:failure: method to be called on the WAKWeatherService's manager property anytime the WAKWeatherService's getCurrentTemp method is called.  We do this by first replacing the WAKWeatherService's manager property with a mock object (because we do not actually want to make a network call in our test).  Then we tell the mock AFHTTPRequestOperationManager that we created to only let this test pass if the GET:parameters:success:failure: method is called on it.  Lastly, we call the WAKWeatherService's getCurrentTemp method, which is what we want to cause the call to GET:parameters:success:failure:.  Note that we do not have to recreate the WAKWeatherService object itself because it is already created by the beforeEach block we created earlier.
-           
-    _WAKWeatherServiceSpec.m:_
-       
-    ```
-    context(@"when its getCurrentTemp method is called", ^{
-       
-        it(@"calls GET:parameters:success:failure: on its manager property", ^{
-            weatherService.manager = [AFHTTPRequestOperationManager nullMock];
-            [[weatherService.manager should] receive:@selector(GET:parameters:success:failure:)];
-            [weatherService getCurrentTemp];
-        });
-           
-    });
-    ```
            
     Run the test, and it should compile, but fail.
        
 2.	Implement proper method call on manager property
        
     It is simple enough to make this test pass.  We just need to make the WAKWeatherService's getCurrentTemp call the GET:parameters:success:failure: method on its manager property.  Our test isn't concerned about what arguments are passed into the method, so we will just pass nil for now.
-       
-    _WAKWeatherService.m:_
-       
-    ```
-    - (void)getCurrentTemp {
-        [self.manager GET:nil 
-               parameters:nil 
-                  success:nil 
-                  failure:nil];
-    }
-    ```
        
     Your test should now pass.  Obviously, not much is going to happen as long as we're just sending a bunch of nil arguments in this method call, so our next task is to make sure that the proper arguments are sent.
    
@@ -307,20 +163,7 @@ You should have no errors.  Note that the describe block is generally describing
 2.	Test that the proper url is used
            
     This test is going to want to look and see what when the GET:parameters:success:failure method is called on the WAKWeatherService's manager property, the url that is passed as the argument to the GET: portion of the method call is the url we figured out in the previous section.  Like we did in the last test, we want to substitute a mock object for the WAKWeatherService's manager property so that an actual network call is not made.  Then, the way we will can get ahold of the objects passed into the GET:parameters:success:failure: method call is through the use of a KWCaptureSpy object (remember, the test we just wrote made sure that this method call was made, now we're just concerned with checking that the correct argument is passed in).  A KWCaptureSpy is just an object that you can tell to capture specific arguments when a method is called on some other object.  In this case, we're going to tell it to watch the WAKWeatherService's maanger property and that when the GET:parameters:success:failure: is called on that manager property, to store whatever is passed as the first argument (i.e, the argument at index 0 or the argument passed to the GET: portion of the method call).  Then, in order to give the spy something to capture, we will call the getCurrentTemp method on the WAKWeatherService because this will cause the GET:parameters:success:failure: method to be called on its manager property.  We can then get the captured argument back from the spy and test whether it is what we want it to be.  Note that this new test goes in the same context as the previous test because this test is also testing the WAKWeatherService's behavior when its getCurrentTemp method is called.
-           	
-    _WAKWeatherServiceSpec.m:_
-           	
-  	```
-  	it(@"passes the proper url to the network request", ^{
-  		weatherService.manager = [AFHTTPRequestOperationManager nullMock];
-  		KWCaptureSpy *spy = [weatherService.manager captureArgument:@selector(GET:parameters:success:failure:) atIndex:0];
-  		[weatherService getCurrentTemp];
-  		NSString *urlPassedAsArgument = spy.argument;
-  		NSString *expectedUrl = @"http://api.wunderground.com/api/____YOUR API KEY_____/conditions/q/MI/Detroit.json";
-  		[[urlPassedAsArgument should] equal:expectedUrl];
-  	});
-    ```
-        	
+           	        	
     _*Make sure that you insert your API key into the appropriate point in the url string._
            	
     Run this test.  It should fail, so let's make it pass.
@@ -328,47 +171,14 @@ You should have no errors.  Note that the describe block is generally describing
 3.	Pass the proper url into the network call
            	
 	In order to make this test pass, all we need to do is to insert the url we have into the GET: portion of the GET:parameters:success:failure: method call.
-           		
-    _WAKWeatherService.m:_
-           
-	```
-	- (void)getCurrentTemp {
-		[self.manager GET:@"http://api.wunderground.com/api/____YOUR API KEY_____/conditions/q/MI/Detroit.json" 
-	           parameters:nil 
-	              success:nil 
-                  failure:nil];
-	}
-	```
-	            
-	Rerun your test, and it should now pass.
+           			            
+	Rerun your test after doing that, and it should now pass.
 	            
 4. Refactor tests in the "when its getCurrentTemp method gets called" context
 			
 	Note that in both of the methods in this context we are declaring a mock for the weatherService.manager property.  Since all of our tests are currently green, this is a good time to refactor that duplicated code into a beforeEach block for this context (i.e., the code in that block will only be run before each test that is in this block).
-				
-	```
-    context(@"when its getCurrentTemp method is called", ^{
-       
-    	beforeEach(^{
-    		weatherService.manager = [AFHTTPRequestOperationManager nullMock];
-    	});
-       
-    	it(@"calls GET:parameters:success:failure: on its manager property", ^{
-       		[[weatherService.manager should] receive:@selector(GET:parameters:success:failure:)];
-       		[weatherService getCurrentTemp];
-    	});
-       
-    	it(@"passes the proper url to the network request", ^{
-       		KWCaptureSpy *spy = [weatherService.manager captureArgument:@selector(GET:parameters:success:failure:) atIndex:0];
-       		[weatherService getCurrentTemp];
-       		NSString *urlPassedAsArgument = spy.argument;
-       		NSString *expectedUrl = @"http://api.wunderground.com/api/ee4ed185d47c8af2/conditions/q/MI/Detroit.json";
-       		[[urlPassedAsArgument should] equal:expectedUrl];
-    	});
-   	});
-    ```
-       			
-    All your tests should still pass and we've gotten rid of a little bit of duplicated code.
+	   			
+    After refactoring, all your tests should still pass and we've gotten rid of a little bit of duplicated code.
        
 ### Check that the proper success block is sent to the manager.
        
@@ -415,117 +225,27 @@ You should have no errors.  Note that the describe block is generally describing
    	_Note: a selector that accepts no arguments is referenced without a colon, @selector(getCurrentTemp).  A selector that accepts a single argument would have a single colon, @selector(getCurrentTemp:).  Likewise, a selector that accepts multiple arguments has multiple colons, for example the @selector(GET:parameters:success:failure:) selector that you have undoubtedly grown to love accepts four arguments)._
        	
   	Since we're going to change this method to now accept an argument, this test will break.  So let's make it pending for the time being.  You make a test pending by adding an x before the it(@"... where the test is declared.  This will cause the test to throw a warning (letting you know that you are skipping the test and you need to come back and fix it later), but it will not record  as a failed test.
-      
-  	``` 	 
-  	xit(@"has a getCurrentTemp method", ^{
-  		[[weatherService should] respondToSelector:@selector(getCurrentTemp)];
-  	});
-  	```
        	
 	Likewise, both the tests in the "when its getCurrentTemp method is called" context rely on the getCurrentTemp method being called with no arguments, so they will break as well.  Let's make them pending for the time being as well.  We also need to comment out the lines that make the call to the getCurrentTemp method.  Otherwise, they will cause compile errors when we change the method to require an argument.  
-       	
-    ```
-    context(@"when its getCurrentTemp method is called", ^{
-       
-    	xit(@"calls GET:parameters:success:failure: on its manager property", ^{
-    		weatherService.manager = [AFHTTPRequestOperationManager nullMock];
-       		[[weatherService.manager should] receive:@selector(GET:parameters:success:failure:)];
-     	//	[weatherService getCurrentTemp];
-    	});
-       
-    	xit(@"passes the proper url to the network request", ^{
-    		weatherService.manager = [AFHTTPRequestOperationManager nullMock];
-       		KWCaptureSpy *spy = [weatherService.manager captureArgument:@selector(GET:parameters:success:failure:) atIndex:0];
-     	//	[weatherService getCurrentTemp];
-       		NSString *urlPassedAsArgument = spy.argument;
-       		NSString *expectedUrl = @"http://api.wunderground.com/api/ee4ed185d47c8af2/conditions/q/MI/Detroit.json";
-       		[[urlPassedAsArgument should] equal:expectedUrl];
-    	});
-   	});
-    ```
-       	
+       	       	
     Now rerun your tests, and they should all pass, but you should have three warnings about the three tests that are not being run.
        	
 2. Test that getCurrentTemp method accepts a success block argument that is passed to the AFHTTPRequestOperationManager manager property in the GET:parameters:success:failure: method call.
 		
 	What we want our code to do (and what we want this test to test) is that a block is passed into the getCurrentTemperature method, which is executed if there is a successful network request.  This block should accept a single current temperature argument because this is what will allow the block to do something useful (like update the screen) with the current temperature.  So let's start off our test by creating such a block.
-		
-	```
-	it(@"accepts a success block that is executed after a successful network response", ^{
-		void (^blockThatUpdatesTheScreen)(NSInteger) = ^(NSInteger currentTemperature) { /* empty */ };
-	});
-	```	
 	
-	We are going to want to test whether this block has been executed however, so let's add a boolean variable that will reflect whether the block has been run.
-		
-	```
-	it(@"accepts a success block that is executed after a successful network response", ^{
-		BOOL blockHasBeenExecuted = NO;
-		void (^blockThatUpdatesTheScreen)(NSInteger) = ^(NSInteger currentTemperature) {
-			blockHasBeenExecuted = YES;
-		};
-	});
-	```	
-	
+	We are going to want to test whether this block has been executed however, so let's add a boolean variable that will reflect whether the block has been run (i.e., it will be "NO" unless the block has been run.
+			
 	Now, the blockHasBeenExecuted variable will accurately reflect whether this block has been executed and we can test that boolean value.
 	
-	The next step for our test is that we want to simulate a successful network call without actually doing a network call.  All that the actual program will do when the network call is successful is run the block that is passed as the success argument in the GET:parameters:success:failure: method call.  Therefore, we can simulate a successful method call by using a spy to capture the block that is passed as the success argument in that method and just running it ourself.
-	
-	```
-	it(@"accepts a success block that is executed after a successful network response", ^{
-		__block BOOL blockHasBeenExecuted = NO;
-		void (^blockThatUpdatesTheScreen)(NSInteger) = ^(NSInteger currentTemperature) {
-			blockHasBeenExecuted = YES;
-		};
+	The next step for our test is that we want to simulate a successful network call without actually doing a network call.  All that the actual program will do when the network call is successful is run the block that is passed as the success argument in the GET:parameters:success:failure: method call.  Therefore, we can simulate a successful method call by using a spy to capture the block that is passed as the success argument in that method and just running it ourself.  Then we test to see whether original block we constructed has been executed (i.e., whether the boolean we created is now YES).
 		
-		/* Set up spy to capture success block */
-		KWCaptureSpy *spy = [weatherService.manager captureArgument:@selector(GET:parameters:success:failure:) atIndex:2];
-			
-		/* Execute getCurrentTemp method, passing in the block we want 
-		   executed on a successful network call. */
-		[weatherService getCurrentTemp:blockThatUpdatesTheScreen];
-			
-		/* Get the block that the spy captured which will actually be executed
-		   following a successful network call */
-		   void(^blockThatWouldBeExecutedOnSuccessfulNetworkCall)(AFHTTPRequestOperation *, id) = spy.argument;
-			   
-		/* Execute the captured block to simulate a successful network call, passing in nil
-		   arguments because they do not make a difference to this test. */
-		blockThatWouldBeExecutedOnSuccessfulNetworkCall(nil, nil);
-			
-		/* Test to see if execution of the success block resulted in 
-		   execution of our original screen updating block. Note that
-		   because the blockHasBeenExecuted variable is a boolean, which
-		   is not an object, Kiwi requires that we wrap it with
-		   "theValue()" */
-		[[theValue(blockHasBeenExecuted) should] beYes];
-	});
-	```
-	
-	You should not even be able to compile this test because an error is being thrown on the line where we call [weatherService getCurrentTemp:blcokThatUpdatesTheScreen]
+	You should not even be able to compile this test because an error is being thrown on the line where you call [weatherService getCurrentTemp:blcokThatUpdatesTheScreen]
 		
 3.	Make our test compile by changing the getCurrentTemp method to accept a block.  
 	
-	We fix this by just changing the method signature in our WAKWeatherService .h and .m files.
-		
-	_WAKWeatherService.h:_
-		
-	```
-	- (void)getCurrentTemp:(void (^)(NSInteger))successBlock;
-	```
-		
-	_WAKWeatherService.m:_
-		
-	```
-	- (void)getCurrentTemp:(void (^)(NSInteger))successBlock {
-   
-   		[self.manager GET:@"http://api.wunderground.com/api/ee4ed185d47c8af2/conditions/q/MI/Detroit.json" 
-   			   parameters:nil 
-   			      success:nil 
-   			      failure:nil];
-	}
-	```
-		
+	We fix this by just changing the method signature in our WAKWeatherService .h and .m files to accept a block that takes a single NSInteger argument.
+			
 	Your test should now run, but fail.  Progress!
 		
 4.	Make the getCurrentTemp: method execute the passed success block if there is a successful network call
@@ -534,24 +254,8 @@ You should have no errors.  Note that the describe block is generally describing
 			
 	One is the responseObject we just talked about (it is an object of type id), and a AFHTTPRequestOperation object that we are not particularly concerned with here.  Checking [the documentation for the GET:parameters:success:failure: method] (http://cocoadocs.org/docsets/AFNetworking/2.2.3/Classes/AFHTTPRequestOperationManager.html#//api/name/GET:parameters:success:failure:) shows that it accepts a block with no (void) return value, and has two arguments (AFHTTPRequestOpertion *operation, which we are not particularly concerned about, and an id responseObject, which contains the weather data we're trying to get).
 			
-	The way we can get around this problem is by just creating a new block of the form that the GET:parameters:success:failure method expects, and have that block execute the block that is passed into our getCurrentTemp: method.  At this point we don't care about what argument is passed to our success block, so we will just pass 0 as an arbitrary value (we cannot pass nil because NSInteger is not an object).
-			
-	_WAKWeatherService.m:_
+	The way we can get around this problem is by just creating a new block of the form that the GET:parameters:success:failure method expects, and have that block execute the block that is passed into our getCurrentTemp: method.  At this point we don't care about what argument is passed to our success block, so we will just pass 0 as an arbitrary temperature value (we cannot pass nil because NSInteger is not an object).
 
-		
-	```
-	- (void)getCurrentTemp:(void (^)(NSInteger))successBlock {		
-		void (^newSuccessBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
-    		successBlock(0);
-   		};
-   
-   		[self.manager GET:@"http://api.wunderground.com/api/ee4ed185d47c8af2/conditions/q/MI/Detroit.json" 
-   			   parameters:nil 
-   			      success:newSuccessBlock 
-   			      failure:nil];
-   	}
-	```
-	
 	You can now rerun your tests, and they should pass.
 			
 5. Clean up the pending tests
@@ -562,12 +266,6 @@ You should have no errors.  Note that the describe block is generally describing
 			
 		Second thing is that because the getCurrentTemp method now takes an argument, let's add a colon to the method name in the description so that it now reads "has a getCurrentTemp: method".  Likewise, also add a colon to the end of the method name where it is provided as a selector argument to the respondToSelector: method.
 			
-		```
-		it(@"has a getCurrentTemp: method", ^{
-      			[[weatherService should] respondToSelector:@selector(getCurrentTemp:)];
-   		});
-		```
-			
 		Rerun your tests and they should now all pass again.
 			
 	* Fix the tests in the "when its getCurrentTemp method is called" context
@@ -575,21 +273,6 @@ You should have no errors.  Note that the describe block is generally describing
 		As before, first fix the context description so that the reference to the getCurrentTemp includes a colon at the end to reflect the fact that the method now takes an argument.
 			
 		Then remove the x's from before the two "it" tests in the context.  Lastly, uncomment the lines in both methods where the getCurrentTemp method is called.  You also need to make sure and pass in an argument to that method on both these lines.  Since these two tests do not depend in any way upon what is being passed into the method, just pass in 'nil'.
-			
-		```
-		it(@"calls GET:parameters:success:failure: on its manager property", ^{
-        	[[weatherService.manager should] receive:@selector(GET:parameters:success:failure:)];
-        	[weatherService getCurrentTemp:nil];
-       	});
-       
-       	it(@"passes the proper url to the network request", ^{
-        	KWCaptureSpy *spy = [weatherService.manager captureArgument:@selector(GET:parameters:success:failure:) atIndex:0];
-        	[weatherService getCurrentTemp:nil];
-        	NSString *urlPassedAsArgument = spy.argument;
-        	NSString *expectedUrl = @"http://api.wunderground.com/api/ee4ed185d47c8af2/conditions/q/MI/Detroit.json";
-        	[[urlPassedAsArgument should] equal:expectedUrl];
-        });
-		```  
 			
 		_Note: It is a good practice to use nil in place of any object that has no effect on the outcome of a test.  It makes tests easier to read because you can assume that anything that is not nil has some effect on the outcome of the test._
 			
@@ -603,107 +286,17 @@ You should have no errors.  Note that the describe block is generally describing
 		
 	The first step in doing this is to create a fake Weather Underground responseObject that is just like a real response with regards to how it stores the current temperature.  Earlier, we discussed how the json object that the Weather Underground API returned was like a nested dictionary.  In particular, we noted that it had an initial "current_observation" key that returned a dictionary.  That returned dictionary then had a "temp_f" key that returned the fehrenheit temperature that we want.
 		
-	This test is going to be very similar to the following test that we already did:
-		
-	_WAKWeatherServiceSpec.m:_
-	
-					
-	```
-	it(@"accepts a success block that is executed after a successful network response", ^{
-		__block BOOL blockHasBeenExecuted = NO;
-		void (^blockThatUpdatesTheScreen)(NSInteger) = ^(NSInteger currentTemperature) {
-			blockHasBeenExecuted = YES;
-		};
-		
-		/* Set up spy to capture success block */
-		KWCaptureSpy *spy = [weatherService.manager captureArgument:@selector(GET:parameters:success:failure:) atIndex:2];
-		
-		/* Execute getCurrentTemp method, passing in the block we want 
-		   executed on a successful network call. */
-		[weatherService getCurrentTemp:blockThatUpdatesTheScreen];
-			
-		/* Get the block that the spy captured which will actually be executed
-		   following a successful network call */
-		   void(^blockThatWouldBeExecutedOnSuccessfulNetworkCall)(AFHTTPRequestOperation *, id) = spy.argument;
-		   
-		/* Execute the captured block to simulate a successful network call, passing in nil
-		   arguments because they do not make a difference to this test. */
-		blockThatWouldBeExecutedOnSuccessfulNetworkCall(nil, nil);
-		
-		/* Test to see if execution of the success block resulted in 
-		   execution of our original screen updating block. Note that
-		   because the blockHasBeenExecuted variable is a boolean, which
-		   is not an object, Kiwi requires that we wrap it with
-		   "theValue()" */
-		[[theValue(blockHasBeenExecuted) should] beYes];
-	});
-	```
-
-	The only difference is that this time we're going to create a fake responseObject to pass as the second parameter when we run the "blockThatWouldBeExecutedOnSuccessfulNetworkCall".  Then, instead of just testing the the original block was executed, we're going to actually test that the original block received the correct temperature as a parameter.  In some senses, you could say that this second test renders the first test unnecessary, but in this case, both tests served useful purposes in driving the design of our program and in the case of a test failure, it will provide us additional information if only one of the tests fail as opposed to both of the tests failing.  Anyway, on to the second test.
-				
-	```
-	it(@"passes the correct temperature to the received success block after a successful network call", ^{
-		__block NSInteger temperaturePassedToBlockThatUpdatesScreen = 0;
-		void (^blockThatUpdatesTheScreen)(NSInteger) = ^(NSInteger currentTemperature) {
-			temperaturePassedToBlockThatUpdatesScreen = currentTemperature;
-		};
-		
-		KWCaptureSpy *spy = [weatherService.manager captureArgument:@selector(GET:parameters:success:failure:) atIndex:2];
-		[weatherService getCurrentTemp:blockThatUpdatesTheScreen];
-		
-		void(^blockThatWouldBeExecutedOnSuccessfulNetworkCall)(AFHTTPRequestOperation *, id) = spy.argument;
-
-		/* Create fake response object with the nested dictionary form of a 
-		   real Weather Underground response object. */
-		NSInteger currentTemp = 67;
-		id fakeResponse = @{@"current_observation" : @{@"temp_f" : @(currentTemp)}};
-						   
-		/* Pass fake response to block as response object parameter (second parameter) */
-		blockThatWouldBeExecutedOnSuccessfulNetworkCall(nil, fakeResponse);
-		
-		/* Test to see if successful network call results in the original success block
-		   receiving the current temperature.  */
-		[[theValue(temperaturePassedToBlockThatUpdatesScreen) should] equal:theValue(currentTemp)];
-	});
-	```
+	This test is going to be very similar to the test that we already did to test that the WAKWeatherService executed the success block it received in its getCurrentTemp: method after a successful netowrk call.  The only difference is that this time we're going to create a fake responseObject to pass as the second parameter when we run the "blockThatWouldBeExecutedOnSuccessfulNetworkCall".  Then, instead of just testing the the original block was executed, we're going to actually test that the original block received the correct temperature as a parameter.  In some senses, you could say that this second test renders the first test unnecessary, but in this case, both tests served useful purposes in driving the design of our program and in the case of a test failure, it will provide us additional information if only one of the tests fail as opposed to both of the tests failing.  Anyway, on to the second test.
 	 
-	Running this test should fail.
+	After you've written that test, run it, and it should fail.
 	 	
 2. Properly parse and pass the current temperature to the success block received in the getCurrentTemp: method
 	 	
-	Currently, our getCurrentTemp method creates a very simple block that just passes 0 to the originally received success block:
- 		
-	```
-	void (^newSuccessBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) 
-	{
-	  	successBlock(0);
-	};
-	```
- 		
-	We need to expand this method to parse a current temperature from the passed in responseObject and then to pass that temperature value into the successBlock.  Let's start by using a little bit of wishful thinking and pretend that we have a method that will parse the current temperature from the response object.  That makes finishing out this block very straightforward.
-	 		
-	_WAKWeatherService.m:_
-			
-	```
-	void (^newSuccessBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) 
-	{
-		/* Not (yet) existing method that parses temperature from responseObject */
-		NSInteger currentTemperature = [self parseCurrentTempFrom:responseObject];
-		successBlock(currentTemperature);
-	};
-	```
+	Currently, our getCurrentTemp method creates a very simple block that just passes 0 to the originally received success block.  We need to expand this method to parse a current temperature from the passed in responseObject and then to pass that temperature value into the successBlock.  Let's start by using a little bit of wishful thinking and pretend that we have a method that will parse the current temperature from the response object.  That makes finishing out this block very straightforward because it just needs to call our imaginary method and pass the result to the success block.
 	 
-	Alright, now all we have to do is actually create the parseCurrentTempFrom: method.  This method can be implemented by just using the "current_observation" and "temp_f" keys we know should lead us to the fehrenheit temperature and applying them to the response object as if it were a dictionary (as discussed earlier, json response objects behave like arrays and dictionaries and the Weather Underground response in particular behaves like a dictionary).
-		
-	_WAKWeatherService.m:_
-						
-	```
-	- (NSNumber *)parseFehrenheitTemp:(id)responseObject {
-		return responseObject[@"current_observation"][@"temp_f"];
-	}
-	```
-		
-	Now if you run the tests, they should all pass.
+	Then all we have to do is actually create the parseCurrentTempFrom: method.  This method can be implemented by just using the "current_observation" and "temp_f" keys we know should lead us to the fehrenheit temperature and applying them to the response object as if it were a dictionary (as discussed earlier, json response objects behave like arrays and dictionaries and the Weather Underground response in particular behaves like a dictionary).
+			
+	Once you've created that method, run the tests, and they should all pass.
 			
 	Congratulations, you have completed the implementation of a class that performs a network call using the Weather Underground API, parses the current temperature from the API's json response, and executes a passed block (using the current temperature as an argument) that was received from the object requesting the current temperature.  You're done with the hard part.  Now you just need to implement the WAKViewController to get that current temperature on the screen.  Although I'm going to walk you through that as well, this will involve much less discussion and more code since the basic implementation we're going to do is pretty straightforward.
 			
@@ -711,189 +304,38 @@ You should have no errors.  Note that the describe block is generally describing
 				
 We're going to start by deviating a bit from true TDD because we need to do a bit of UI setup that does not fit well with TDD.  First thing is to create the WAKViewController class (extending UIViewController) with a xib file.  This class should have WeatherApiKata as its only target.  On the Xib file drag a UILabel onto the screen somewhere.  Feel free to give it some text like "Loading current temperature..." and center it if you want, but that is not important to this exercise.  Next, create an outlet for that label in the WAKViewController.h class.
 
-```
-@interface WAKViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *currentTempLabel;
-@end
-```
-
 Make sure you connect the outlet to the label in the xib (you should have the little filled-in circle to the left of your outlet).
 
 ### Give the WAKViewController a WAKWeatherService property
 
 Alright, let's get back to some TDD.  You want to test that when your WAKViewController loads up the screen that it gets the current temperature from the WAKWeatherService and displays it on the screen.  First things first, we're testing a new class, so create a new test spec for that class.
 
-_WAKViewControllerSpec.m:_
+In order to get the temperature from WAKWeatherService, our WAKViewController is going to need an instance of the WAKWeatherService.  So let's write a test to verify that the WAKViewController has a WAKWeatherService property that is not nil.  We'll expect to assign the WAKWeatherService property in the initializer for the WAKViewController.
 
-```
-#import <Kiwi/Kiwi.h>
-#import "WAKViewController.h"
+This test shoudld not compile becuase our WAKViewController does not have a property named weatherService, so go ahead and add that property.
 
-SPEC_BEGIN(WAKViewControllerSpec)
-
-describe(@"WAKViewController", ^{
-	
-});
-	
-SPEC_END
-```
-
-Now in order to get the temperature from WAKWeatherService, our WAKViewController is going to need an instance of the WAKWeatherService.  So let's write a test to verify that the WAKViewController has a WAKWeatherService property that is not nil.  We'll just do this in the initializer for the WAKViewController.
-
-_WAKViewControllerSpec.m:_
-
-```
-describe(@"WAKViewController", ^{
-	it(@"has a WAKWeatherService property that is not nil", ^{
-		WAKViewController *viewController = [[WAKViewController alloc] init];
-		[[viewController.weatherService should] notBeNil];
-	});
-});
-```
-
-This test shoudld not compile becuase our WAKViewController does not have a property named weatherService, so go ahead and add a property to hold that.
-
-_WAKViewController.h:_
-
-```
-#import "WAKWeatherService.h"
-
-@interface WAKViewController : UIViewController
-@property (weak, nonatomic) IBOutlet UILabel *currentTempLabel;
-@property (strong, nonatomic) WAKWeatherService *weatherService;
-@end
-```
 Your test should now compile and fail.  So let's fix the test by having our WAKViewController create a WAKWeatherService object and assign it to the weather service property when viewDidLoad: is called.
 
-_Note that Xcode probably generated most of the following code for you automatically when you created WAKViewController with the associated xib file._ 
+_Note that Xcode probably generated most of the initializer's code for you automatically when you created WAKViewController with the associated xib file._ 
 
-_WAKViewController.m:_
-
-```
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.weatherService = [[WAKWeatherService alloc] init];
-    }
-    return self;
-}
-```
 Run your tests again, and you should be back to passing.
 
 ### Get the current temperature from the WAKWeatherService class to the screen
 
-If you recall, the getCurrentTemp method for our WAKWeatherService looks like this:
+If you will recall, the getCurrentTemp method for our WAKWeatherService takes a single parameter, which is a block that will be executed upon a successful network call.  Furthermore, that block itself will be executed with a single NSInteger argument, which will represent the current temperature as reported by Weather Underground. Similar to how we tested the WAKWeatherService, let's test our WAKViewController by checking to make sure that execution of the block passed into the getCurrentTemp: method does what we want (i.e., sets the text of the UILabel we made to relfect the current temperature).  This means that we will first need to use a spy to capture the blcok our WAKViewController passes to the WAKWeatherService in the getCurrentTemp: method.  Of course we will mock the WAKWeatherService in order to avoid there being an actual network call.  Second, we will simulate a successful network call by manually running the success block we captured.  When we run that success block, we will pass in a particular temperature.  Last, our test will be that the IBOutlet property for our UILabel has the setText: method called on it with the correct temperature as its argument.  Go ahead and write that test.
 
-```
-- (void)getCurrentTemp:(void (^)(NSInteger))successBlock;
-```
+This test should fail.  One tricky thing to note in that test is why we mocked out the UILabel property (viewController.currentTempLabel).  We did that because such a view element is only created as a part of the UIViewController lifecycle.  We are intentionally not recreating the entire UIViewController lifecycle, however, so if we did not assign a mock to the currentTempLabel UILabel property, then that property would just be nil.  As such, our test would always fail because we could never successfully set the text of a nil object.
 
-That means that it takes a single parameter, which is a block that will be executed upon a successful network call.  Furthermore, that block itself will be executed with a single NSInteger argument, which will represent the current temperature as reported by Weather Underground. Similar to how we tested the WAKWeatherService, let's test our WAKViewController by checking to make sure that execution of the block passed into the getCurrentTemp: method does what we want (i.e., sets the text of the UILabel we made to relfect the current temperature).  This means that we will first need to use a spy to capture the blcok our WAKViewController passes to the WAKWeatherService in the getCurrentTemp: method.  Of course we will mock the WAKWeatherService in order to avoid there being an actual network call.  Second, we will simulate a successful network call by manually running the success block we captured.  When we run that success block, we will pass in a particular temperature.  Last, our test will be that the IBOutlet property for our UILabel has the setText: method called on it with the correct temperature as its argument.  You end up with a test like this.
+Now all we need to do to get the test to pass is to creat a success block that converts the NSInteger input into the success block into a string and uses that string to update the UILabel being displayed.  Go ahead and do that.
 
-_WAKViewControllerSpec.m:_
-
-```
-it(@"updates the screen with the temperature returned by the WAKWeatherService", ^{
-    WAKViewController *viewController = [[WAKViewController alloc] init];
-    viewController.weatherService = [WAKWeatherService nullMock];
-    
-    	/* Set up the test representing what we expect to happen by
-    	   the end of this test (screen UILabel is updated with current 
-    	   temp */
-    viewController.currentTempLabel = [UILabel nullMock];
-    NSInteger simulatedTemp = 73;
-    NSString *simulatedTempAsString = [@(simulatedTemp) stringValue];
-    [[viewController.currentTempLabel should] receive:@selector(setText:)
-                                        withArguments:simulatedTempAsString];
-    
-    	/* Create spy to capture the argument passed when the WAKWeatherService is
-    	   called with the getCurrentTemp: method */
-    KWCaptureSpy *spy = [viewController.weatherService captureArgument:@selector(getCurrentTemp:)
-                                                               atIndex:0];
-    	/* Simulate the view controller loading onto the screen (which should result
-    	   in the getCurrentTemp: method being called */
-    [viewController viewDidLoad];
-    
-    	/* Get back the block that our spy captured from the getCurrentTemp: method call */
-    void (^capturedSuccessBlock)(NSInteger) = spy.argument;
-    
-    	/* Simulate a successful network call that returned a temperature of 73 degrees */
-    capturedSuccessBlock(simulatedTemp); 
-});
-```
-
-This test should fail.  One tricky thing to note in the above example is why we mocked out the UILabel property (viewController.currentTempLabel).  We did that because such a view element is only created as a part of the UIViewController lifecycle.  We are intentionally not recreating the entire UIViewController lifecycle, however, so if we did not assign a mock to the currentTempLabel UILabel property, then that property would just be nil.  As such, our test would always fail because we could never successfully set the text of a nil object.
-
-Now all we need to do to get the test to pass is to creat a success block that converts the NSInteger input into the success block into a string and uses that string to update the UILabel being displayed.
-
-_WAKViewController.m:_
-
-```
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    // Create the success block we're going to pass into the getCurrentTemp: method
-    void(^mySuccessBlock)(NSInteger) = ^(NSInteger currentTemperature) {
-        NSString *stringTemp = [@(currentTemperature) stringValue];
-        UILabel *tempLabel = self.currentTempLabel;
-        [tempLabel setText:stringTemp];
-    };
-    
-    // Call getCurrentTemp on the weather service and pass the success block
-    [self.weatherService getCurrentTemp:mySuccessBlock];
-}
-
-```
 Now all your tests should pass.  We're almost done.  Only thing left is to make sure that our WAKViewController is actualy loaded when the program runs.
 
 ### Make sure that the AppDelegate loads the WAKViewController
 
-Keeping this simple, what we want is just for our AppDelegate to assign the windows root view controller to be an instance of WAKViewController when the application:didFinishLaunchingWithOptions: method is called.  Compared to what we've already done, this test will probably seem relatively easy.  Since we're testing a new class (the WAKAppDelegate), let's stick it in a new test spec file.
-
-_WAKAppDelegateSpec.m:_
-
-```
-#import <Kiwi/Kiwi.h>
-#import "WAKAppDelegate.h"
-#import "WAKViewController.h"
-
-SPEC_BEGIN(WAKAppDelegateSpec)
-
-describe(@"WAKAppDelegate", ^{
-    
-    it(@"assigns a WAKViewController to be the rootViewController on load", ^{
-        WAKAppDelegate *appDelegate = [[WAKAppDelegate alloc] init];
-        
-            /* Manually run the application:didFinisheLaunchingWithOptions: method,
-               passing nil arguments because our test should be affected by the arguments */
-        [appDelegate application:nil didFinishLaunchingWithOptions:nil];
-        
-        [[appDelegate.window.rootViewController should] beKindOfClass:[WAKViewController class]];
-    });
-		
-});
-	
-SPEC_END
-```
+Keeping this simple, what we want is just for our AppDelegate to assign the windows root view controller to be an instance of WAKViewController when the application:didFinishLaunchingWithOptions: method is called.  Compared to what we've already done, this test will probably seem relatively easy.  Since we're testing a new class (the WAKAppDelegate), let's create a new test spec file for the WAKAppDelegate.
 
 This test should compile and fail.  Getting it to pass is easy enough though, just go to your WAKAppDelegate.m file and in the application:didFinishLaunchingWithOptions: method you should have a spot where Xcode has left a comment identifying it as the override point for customization after the application has launched.  Just delete that comment and replace it with a line of code assigning an isntance of the WAKViewController to be the WAKAppDelegate window's rootViewController.
 
-_WAKAppDelegate.m:_
-
-```
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
-    	/* Here's the line of code to add */
-    self.window.rootViewController = [[WAKViewController alloc] init];
-    
-    self.window.backgroundColor = [UIColor whiteColor];
-    [self.window makeKeyAndVisible];
-    return YES;
-}
-```
 Rerun your tests and they should all pass now.  
 
 You're all done!  Try running your app (not your tests), and it should load up an empty screen displaying the UILabel's default text for a second or so, and then (assuming you are connected to the internet) it will update with the temperature.
