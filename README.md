@@ -1,6 +1,6 @@
 # WeatherUnderground API Kata
 
-General instructions are included in Level 1.
+General instructions are included in the master branch.
 
 LINK
 
@@ -10,6 +10,6 @@ LINK
 
 LINK
 
-# The Kata - Level 4
+# Level 4
 
 :-)
