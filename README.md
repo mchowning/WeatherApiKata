@@ -2,13 +2,15 @@
 
 General instructions are included in the master branch.
 
-LINK
+[Master] (https://github.com/mchowning/WeatherApiKata/tree/master)
 
-LINK
+Level 1
 
-LINK
+[Level 2] (https://github.com/mchowning/WeatherApiKata/tree/level-2)
 
-LINK
+[Level 3] (https://github.com/mchowning/WeatherApiKata/tree/level-3)
+
+[Level 4] (https://github.com/mchowning/WeatherApiKata/tree/level-4)
 
 # Level 4
 
