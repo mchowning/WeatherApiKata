@@ -1,6 +1,6 @@
 # WeatherUnderground API Kata
 
-General instructions are included in Level 1.
+General instructions are included in the master branch.
 
 LINK
 
@@ -10,8 +10,7 @@ LINK
 
 LINK
 
-
-# The Kata - Level 2
+# Level 2
 
 Let's start with a brief overview.  Our program is going to have two classes along with a xib file.  The first class that we will create is the WAKWeatherService class.  It will be the job of this class to go and get the current temperature from the Weather Underground API and to make that result available to other classes.  The next class we will create is the WAKViewController.  This class is responsible for instantiating a WAKWeatherService, telling it to go get the current temperature, and then to display the result on the screen.  Alright, let's get started. 
 
