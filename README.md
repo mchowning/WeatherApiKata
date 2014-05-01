@@ -14,7 +14,7 @@ Level 3
 
 # Level 3
 
-Let's start with a brief overview.  Our program is going to have two classes along with a xib file.  The first class that we will create is the WAKWeatherService class.  It will be the job of this class to go and get the current temperature from the Weather Underground API and to make that result available to other classes.  The next class we will create is the WAKViewController.  This class is responsible for instantiating a WAKWeatherService, telling it to go get the current temperature, and then to display the result on the screen.  Alright, let's get started. 
+Our program is going to have two classes along with a xib file.  The first class that we will create is the WAKWeatherService class.  It will be the job of this class to go and get the current temperature from the Weather Underground API and to make that result available to other classes.  The next class we will create is the WAKViewController.  This class is responsible for instantiating a WAKWeatherService, telling it to go get the current temperature, and then displaying the result on the screen.
 
 ## WAKWeatherService 
 
@@ -22,15 +22,15 @@ Remember to use TDD for each of these steps, even it's not specifically mentione
 
 1.	Create a getCurrentTemp method for the WAKWeatherService
 
-2.	Give the WAKWeatherService class a property that contains the AFNetworking object that will make a network call to the Weather Underground API.
+2.	Give the WAKWeatherService class a property that contains the AFNetworking object that will make a network call to the Weather Underground API
 
-3.	Test and make sure that the WAKWeatherService's AFNetworking property is actually assigned to an instance of the relevant AFNetworking class. 
+3.	Test and make sure that the WAKWeatherService's AFNetworking property is actually assigned to an instance of the relevant AFNetworking class
 
 4.	Insure that the proper method call is made on the WAKWeatherService's AFNetworking property when getCurrentTemp is called
 
-5.	Check that the proper URL is sent to the AFNetworking property.
+5.	Check that the proper URL is sent to the AFNetworking property
 
-6.	Check that the proper success block is sent to the AFNetworking property.
+6.	Check that the proper success block is sent to the AFNetworking property
 
 7.  Make sure that the temperature that the WAKWeatherService provides to the success block that it receives in the getCurrentTemp: method is the temperature received from the network call
 
