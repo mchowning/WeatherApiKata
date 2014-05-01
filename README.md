@@ -72,7 +72,7 @@ You should have no errors.  Note that the describe block generally describes wha
 	});			    
 	```  			   
 	    
-	Note that the string in the it block ("has a getCurrentTemp method") is written so that if there is an error, the test result printout, which will append this string to the string in the describe block ("WAKWeatherService"), provides a description of the desired behavior that is easy to read: "WAKWeatherService has a getCurrentTemp method".
+	>_Note that the string in the it block ("has a getCurrentTemp method") is written so that if there is an error, the test result printout, which will append this string to the string in the describe block ("WAKWeatherService"), provides a description of the desired behavior that is easy to read: "WAKWeatherService has a getCurrentTemp method".
 		    
 	Run this test and you should get a test failure because the WAKWeatherService does not have any method named getCurrentTemp.  In fact, Xcode will now actually give you a warning about this by stating that "@selector(getCurrentTemp)" is an undeclared selector.
 		    
@@ -123,7 +123,7 @@ You should have no errors.  Note that the describe block generally describes wha
 	    
 3. Add an AFHTTPRequestOperationManager property to our WAKWeatherService class
 
-	To do this, we're just going to create the relevant property in the WAKWeatherService.h file.  Note that the reason we're declaring this property in the .h file instead of the .m file is so that our test can see it.  Usually it is not a good idea to expose a property (or method) just so that your test can see it, but for the sake of keeping the code in this kata straighforward, we're just going to make this property public by putting it in the .h file:
+	To do this, we're just going to create the relevant property in the WAKWeatherService.h file.  Note that the reason we're declaring this property in the .h file instead of the .m file is so that our test can see it.  Usually it is not a good idea to expose a property (or method) just so that your test can see it, but for the sake of keeping the code in this kata straightforward, we're just going to make this property public by putting it in the .h file:
 		    
 	_WAKWeatherService.h:_
 	    
@@ -140,9 +140,9 @@ You should have no errors.  Note that the describe block generally describes wha
 		   
 4. Create an AFHTTPRequestOperationManager and assign it to the WAKWeatherService class's manager property.
 
-	Although our test is no longer throwing a compilation error, if you run it, it fails because it expected the manager property on our WAKWeatherService object to not be nil.  The problem is that we never create an actual AFHTTPRequstOperationManager object and assign it to the manager property, so when the test looks to see if the object that is assigned to the manager property is of the AFHTTPRequestOperationManager class it fails because the manager is not an AFHTTPRequestOperationManager, it's nil.  A simple way to do this is to override the init method for our WAKWeatherService class and have it assign an AFHTTPRequestOperationManager object to the manager property.  
+	Although our test is no longer throwing a compilation error, if you run it, it fails because it expected the manager property on our WAKWeatherService object to not be nil.  The problem is that we never create an actual AFHTTPRequestOperationManager object and assign it to the manager property, so when the test looks to see if the object that is assigned to the manager property is of the AFHTTPRequestOperationManager class it fails because the manager is not an AFHTTPRequestOperationManager, it's nil.  A simple way to do this is to override the init method for our WAKWeatherService class and have it assign an AFHTTPRequestOperationManager object to the manager property.  
 		    
-	_Note that most of the code in the snippet below is boilerplate that Xcode will autocomplete for you if you start typing init at the beginning of a line_
+	>_Note that most of the code in the snippet below is boilerplate that Xcode will autocomplete for you if you start typing init at the beginning of a line_
 		    
 	_WAKWeatherService.m:_
 	    
@@ -171,11 +171,11 @@ You should have no errors.  Note that the describe block generally describes wha
         });
              
         it(@"has a getCurrentTemp method", ^{
-            [[sut should] respondToSelector:@selector(getCurrentTemp)];
+            [[weatherService should] respondToSelector:@selector(getCurrentTemp)];
         });
              
         it(@"has an AFHTTPRequestOperationManager object stored as a property", ^{
-            [[sut.manager should] beKindOfClass:[AFHTTPRequestOperationManager class]];
+            [[weatherService.manager should] beKindOfClass:[AFHTTPRequestOperationManager class]];
         });
     });
     ```
@@ -253,13 +253,13 @@ You should have no errors.  Note that the describe block generally describes wha
                
 	To start figuring out what kind of url the Weather Underground API requires, we should head back to the [Weather Underground API documentation](http://www.wunderground.com/weather/api/d/docs) and see what it has to say.  Conveniently enough, the very first page gives an example of the kind of request that will obtain the current conditions for San Francisco, CA:
                
-	_http://api.wunderground.com/api/__[your 16-character API key]__/conditions/q/CA/San_Francisco.json_
+	>_http://api.wunderground.com/api/__[your 16-character API key]__/conditions/q/CA/San_Francisco.json_
                
 	Note that there is even a button that shows you the response that is returned with this query.  The response is in a json format, which is like an array/dictionary combination.  Each level of the response will be either an array or a dictionary.  In this case we can tell that each level of the response is a dictionary for two reasons: (1) it uses the {} that dictionaries use instead of the [] that arrays use; and (2) it has key value pairs (which arrays do not have).
                
-	_Note: It can be hard to read plain json, but there are a number of json reading extensions that you can download for free that will make the json much easier to read.  I have had good luck with [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) for Google Chrome.  It's helpful to use one of these top open the link in your web browser and then collapse all of the entries so that you can slowly open them and see how the json is organized._  
+	>_Note: It can be hard to read plain json, but there are a number of json reading extensions that you can download for free that will make the json much easier to read.  I have had good luck with [JSONView](https://chrome.google.com/webstore/detail/jsonview/chklaanhfefbnpoihckbnefhakgolnmc) for Google Chrome.  It's helpful to use one of these top open the link in your web browser and then collapse all of the entries so that you can slowly open them and see how the json is organized._  
                
-	In this case, once you close everything in the json using a json reader, you can see that the json response has two base keys: a "response" and a "current_location" (you can see this without a json reader, it's just less obvious).  Opening the response dictionary shows that it contains another dictionary with just a few keys that do not relate to weather.  In other words, it's not what we're looking for.  So let's close the "response" portion and open the "current_observation" portion.  That looks much more promising.  It contains some more dictionaries (i.e., the "image" and "display_location" keys), and then it contains a bunch of keys that relate directly to weather information.  In particular, it contains a key named "temp_f" that appears to provide the current temperature in degrees fehrenheit.  That's what we want.
+	In this case, once you close everything in the json using a json reader, you can see that the json response has two base keys: a "response" and a "current_location" (you can see this without a json reader, it's just less obvious).  Opening the response dictionary shows that it contains another dictionary with just a few keys that do not relate to weather.  In other words, it's not what we're looking for.  So let's close the "response" portion and open the "current_observation" portion.  That looks much more promising.  It contains some more dictionaries (i.e., the "image" and "display_location" keys), and then it contains a bunch of keys that relate directly to weather information.  In particular, it contains a key named "temp_f" that appears to provide the current temperature in degrees fahrenheit.  That's what we want.
                
     Now we just need to use this example url as a jumping off point for our goal of getting the current temperature for Detroit.  The first thing to note is that the 16-character string after the /api/ portion of the url is the 16-digit API key we got when we signed up earlier.  Likewise, it looks like we could probably substitute MI/Detroit.json for CA/San_Francisco.json.  This seems like a pretty good guess, so let's just construct a url like that and put it into our browser to see what happens.  In particular, let's just replace the CA/San_Francisco.json with MI/Detroit.json and see if it works (make sure you include your 16-character API key at the appropriate place).
                
@@ -273,7 +273,7 @@ You should have no errors.  Note that the describe block generally describes wha
            
     This test is going to want to look and see what when the GET:parameters:success:failure method is called on the WAKWeatherService's manager property, the url that is passed as the argument to the GET: portion of the method call is the url we figured out that we needed to use in the previous section.  Like we did in the last test, we want to substitute a mock object for the WAKWeatherService's manager property so that an actual network call is not made.  Then, the way we will can get ahold of the objects passed into the GET:parameters:success:failure: method call is through the use of a KWCaptureSpy object (remember, the test we just wrote made sure that this method call was made, now we're just concerned with checking that the correct argument is passed in).  
     
-    A KWCaptureSpy is just an object that you can tell to capture specific arguments when a method is called on some other object.  In this case, we're going to tell it to watch the WAKWeatherService's maanger property and that when the GET:parameters:success:failure: is called on that manager property, to store whatever is passed as the first argument (i.e, the argument at index 0 or the argument passed to the GET: portion of the method call).  Then, in order to give the spy something to capture, we will call the getCurrentTemp method on the WAKWeatherService because this will cause the GET:parameters:success:failure: method to be called on its manager property.  We can then get the captured argument back from the spy and test whether it is what we wanted it to be.  Note that this new test goes in the same context as the previous test because this test is also testing the WAKWeatherService's behavior when its getCurrentTemp method is called.
+    A KWCaptureSpy is just an object that you can tell to capture specific arguments when a method is called on some other object.  In this case, we're going to tell it to watch the WAKWeatherService's manager property and that when the GET:parameters:success:failure: is called on that manager property, to store whatever is passed as the first argument (i.e, the argument at index 0 or the argument passed to the GET: portion of the method call).  Then, in order to give the spy something to capture, we will call the getCurrentTemp method on the WAKWeatherService because this will cause the GET:parameters:success:failure: method to be called on its manager property.  We can then get the captured argument back from the spy and test whether it is what we wanted it to be.  Note that this new test goes in the same context as the previous test because this test is also testing the WAKWeatherService's behavior when its getCurrentTemp method is called.
            	
     _WAKWeatherServiceSpec.m:_
            	
@@ -395,7 +395,7 @@ You should have no errors.  Note that the describe block generally describes wha
   	});
   	```
   	
-  	_Note: a selector that accepts no arguments is referenced without a colon, @selector(getCurrentTemp).  A selector that accepts a single argument would have a single colon, @selector(getCurrentTemp:).  Likewise, a selector that accepts multiple arguments has multiple colons, for example the @selector(GET:parameters:success:failure:) selector that you have undoubtedly grown to love accepts four arguments)._
+  	>_Note: a selector that accepts no arguments is referenced without a colon, @selector(getCurrentTemp).  A selector that accepts a single argument would have a single colon, @selector(getCurrentTemp:).  Likewise, a selector that accepts multiple arguments has multiple colons, for example the @selector(GET:parameters:success:failure:) selector that you have undoubtedly grown to love accepts four arguments)._
        	
 	In addition, both the tests in the "when its getCurrentTemp method is called" context rely on the getCurrentTemp method being called with no arguments, so they will break as well.  Let's make them pending for the time being as well.  We also need to comment out the lines that make the call to the getCurrentTemp method.  Otherwise, they will cause compile errors when we change the method to require an argument.  
        	
@@ -511,7 +511,7 @@ You should have no errors.  Note that the describe block generally describes wha
 		
 	The simplest thing would be to just pass the success block received in the getCurrentTemp method as the success block in the network calling GET:parameters:success:failure: method.  We can't do that however, because the success block that the GET:parameters:success:failure: method is expecting is a different kind of block than is being passed into our getCurrentTemp: method.  The reason that they are different is because the successBlock we are working with accepts a single NSInteger argument (representing the current temperature as returned by the network call).  As we saw earlier, however, the API request does not return a single temperature, but a large .json file which is returned as a "responseObject".  Accordingly, the success block that the GET:parameters:success:failure: method will execute after a successful network call has different arguments.
 			
-	One is the responseObject we just talked about (an object of type id), and a AFHTTPRequestOperation object that we are not concerned with here.  Checking [the documentation for the GET:parameters:success:failure: method] (http://cocoadocs.org/docsets/AFNetworking/2.2.3/Classes/AFHTTPRequestOperationManager.html#//api/name/GET:parameters:success:failure:) confirms that it accepts as a success block a block with no return value (void), and has two arguments (AFHTTPRequestOpertion *operation, which we are not concerned about, and an id responseObject that contains the weather data we're trying to get).
+	One is the responseObject we just talked about (an object of type id), and a AFHTTPRequestOperation object that we are not concerned with here.  Checking [the documentation for the GET:parameters:success:failure: method] (http://cocoadocs.org/docsets/AFNetworking/2.2.3/Classes/AFHTTPRequestOperationManager.html#//api/name/GET:parameters:success:failure:) confirms that it accepts as a success block a block with no return value (void), and has two arguments (AFHTTPRequestOperation *operation, which we are not concerned about, and an id responseObject that contains the weather data we're trying to get).
 			
 	The way we can get around this problem is by just creating a new block of the form that the GET:parameters:success:failure method expects, and have that block execute the block that is passed into our getCurrentTemp: method.  At this point we don't care about what argument is passed to our success block, so we will just pass 0 as an arbitrary value (we cannot pass nil because NSInteger is not an object).
 			
@@ -578,7 +578,7 @@ You should have no errors.  Note that the describe block generally describes wha
         });
 		```  
 			
-		_Note: It is a good practice to use nil in place of any object that has no effect on the outcome of a test.  It makes tests easier to read because you can assume that anything that is not nil has some effect on the outcome of the test._
+		>_Note: It is a good practice to use nil in place of any object that has no effect on the outcome of a test.  It makes tests easier to read because you can assume that anything that is not nil has some effect on the outcome of the test._
 			
 		Go ahead and rerun your tests.  They should all be running and passing now.
 			
@@ -693,7 +693,7 @@ As of now, after a successful network call, the WAKWeatherService always passes 
 	}
 	```
 		
-	Now if you run the tests, they should all pass.  Note that we could have created a separate test for the parseFahrenheitTemp, but this is an example of testing implementation.  We would have had to make that method public solely so that our test class could see and test it, and we know that the method is working properly because we have a test that confirms that the proper temperature is being returned from the WAKWeatherService object.
+	Now if you run the tests, they should all pass.  Note that we could have created a separate test for the parseenheitTemp, but this is an example of testing implementation.  We would have had to make that method public solely so that our test class could see and test it, and we know that the method is working properly because we have a test that confirms that the proper temperature is being returned from the WAKWeatherService object.
 			
 	Congratulations, you have completed the implementation of a class that performs a network call using the Weather Underground API, parses the current temperature from the API's json response, and executes a passed block (using the current temperature as an argument) that was received from the object requesting the current temperature.  The hard part is done.  Now you just need to implement the WAKViewController to get that current temperature on the screen.  Although I'm going to walk you through that as well, this will involve less discussion and more code since the the UI portion of this program is not the focus of this exercise.
 			
@@ -741,7 +741,7 @@ describe(@"WAKViewController", ^{
 });
 ```
 
-This test shoudld not compile becuase our WAKViewController does not have a property named weatherService, so go ahead and add that property.
+This test should not compile because our WAKViewController does not have a property named weatherService, so go ahead and add that property.
 
 _WAKViewController.h:_
 
@@ -755,7 +755,7 @@ _WAKViewController.h:_
 ```
 Your test should now compile and fail.  So let's fix the test by having our WAKViewController create a WAKWeatherService object and assign it to the weather service property in its initializer.
 
-_Note that Xcode probably generated most of the following code for you automatically when you created WAKViewController with the associated xib file._ 
+>_Note that Xcode probably generated most of the following code for you automatically when you created WAKViewController with the associated xib file._ 
 
 _WAKViewController.m:_
 
