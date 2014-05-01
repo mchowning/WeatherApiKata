@@ -16,7 +16,7 @@ This is very much a work in progress.  If you find anything confusing or think t
 
 ## A few things to keep in mind
 
-1. This kata only presents one way of accomplishing the goal of obtaining the current temperature from Weather Underground API and displaying it on the screen.  It is not the only way, and there are many other ways that this could be accomplished that are perfectly valid.  In fact, for the sake of not making this exercise more complicated than it needed to be, I haev intentionally made some design decisions that are not best practices.  So as you progress as a programmer, you very well may want to do things differently than I have instructed in this kata.  Defeinitely be open to any other ways you might complete this kata because learning about them (and why they are or are not better than what we do here) will make you a better programmer.
+1. This kata only presents one way of accomplishing the goal of obtaining the current temperature from Weather Underground API and displaying it on the screen.  It is not the only way, and there are many other ways that this could be accomplished that are perfectly valid.  In fact, for the sake of not making this exercise more complicated than it needed to be, I have intentionally made some design decisions that are not best practices.  So as you progress as a programmer, you very well may want to do things differently than I have instructed in this kata.  Definitely be open to any other ways you might complete this kata because learning about them (and why they are or are not better than what we do here) will make you a better programmer.
 
 	Likewise, this kata only presents one way you could use TDD to drive the creation of this program.  The decision about which (and how many) tests to create is a matter of judgment and there is no single right answer.  Just view the particular tests that are laid out below as one suggested set of tests that can be used.
 	
@@ -28,7 +28,7 @@ This is very much a work in progress.  If you find anything confusing or think t
 
 ## Setup
 
-The setup for this project involves nothing more than an empty XCode iPhone application and a pod install with AFNetworking and Kiwi. An empty project that can be used as a starting point for this kata is included in the master branch.  All you need to do is have cocoa pods installed on your machine (if you don't, go [here] (http://cocoapods.org)), and run pod install to install the dependencies identified in the included Podfile.  Then make sure you open the project using the WatherApiKata.xcworkspace file so that the pods you just installed are used (don't use the .xcodeproj file to open your project anymore!).  
+The setup for this project involves nothing more than an empty XCode iPhone application and a pod install with AFNetworking and Kiwi. All you need to do is have cocoa pods installed on your machine (if you don't, go [here] (http://cocoapods.org)), and run a pod install to install the Kiwi and AFNetworking dependencies (you can use the Podfile in the attached project if you want).  Then make sure you open the project using the WatherApiKata.xcworkspace file so that the pods you just installed are used (don't use the .xcodeproj file to open your project anymore!).  
 
 As you work through this exercise, you should refer to any documentation that you find helpful, especially:
 
