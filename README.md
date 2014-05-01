@@ -25,17 +25,17 @@ Remember to use TDD for each of these steps, even it's not specifically mentione
 2.	Give the WAKWeatherService class a property that contains the AFNetworking object that will make a network call to the Weather Underground API.
 
 3.	Test and make sure that the WAKWeatherService's AFNetworking property is actually assigned to an instance of the relevant AFNetworking class. 
-           
+
 4.	Insure that the proper method call is made on the WAKWeatherService's AFNetworking property when getCurrentTemp is called
-   
+
 5.	Check that the proper URL is sent to the AFNetworking property.
-       
+
 6.	Check that the proper success block is sent to the AFNetworking property.
-       			
+
 7.  Make sure that the temperature that the WAKWeatherService provides to the success block that it receives in the getCurrentTemp: method is the temperature received from the network call
-				
+
 That's it for the WAKWeatherService object!
-			
+
 ## WAKViewController	
 
 1.	Give the WAKViewController a UILabel property with a public IBOutlet property
@@ -47,4 +47,3 @@ That's it for the WAKWeatherService object!
 4.	Make sure that the AppDelegate loads the WAKViewController
 
 ## All Done!
-
