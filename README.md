@@ -19,7 +19,9 @@ Let's start with a brief overview.  Our program is going to have two classes and
 
 ## WAKWeatherService
 
-We're working on test-driven development (TDD) so we we start with a test class (aka, a "spec").  This class should go in the "api-kataTests" folder and only have the api-kataTests target selected.  
+We're working on test-driven development (TDD) so we we start with a test class (aka, a "spec").  This class should go in the "api-kataTests" folder and only have the api-kataTests target selected.
+
+>_Important note: some people have reported Xcode showing "unknown" build errors that could be fixed by giving their classes __both__ the WeatherApiKata and WeatherApiKataTests targets.  I have never experienced this problem myself, but if you experience an unknown error, it is worth seeing if adding your classes under test (i.e., WAKViewController, WAKWeatherService) to also have the WeatherApiKataTest target might fix the problem.  You can do this by selecting the .m file and adjusting the class's "Target Membership" in the Xcode panel to the right._
 
 ### Setup an empty Kiwi spec for testing WAKWeatherService
 	
@@ -179,8 +181,10 @@ describe(@"WAKWeatherService", ^{
     });
 });
 ```
+
+>_Note that we put '\_\_block' at the beginning of the line where we declare the WAKWeatherService object.  This is because normally, variables and their contents that are also used in blocks are copied, thus any modification done to these variables within a block does not show outside the block.  When the variable is marked with \_\_block, however, the modifications done inside the block are also visible outside of that block.  In the above code, the \_\_block tag makes sure that the assignment that occurs within the beforeEach block can be used by the two subsequent 'it' test-blocks.  A second effect of the \_\_block tag is that it is guaranteed that the variable with the \_\_block tag will be retained in memory (for possible use in the block later) even if the class that created the block is destroyed.  This is useful because, as you will see later, a block can be passed from one class to another such that the second class can execute the block at a later point in time.  The \_\_block tag is tricky.  Don't worry if you don't fully understand it now, you just need to know that you have to use the \_\_block tag in situations like that shown above._
      
-Go ahead and rerun your tests in order to make sure they both still pass
+Go ahead and rerun your tests and make sure they both still pass
         
 ### Insure that the proper method call is made on the WAKWeatherService's manager property when getCurrentTemp is called
    
@@ -699,7 +703,9 @@ Congratulations, you have completed the implementation of a class that performs 
 			
 ## WAKViewController	
 				
-We're going to start by deviating a bit from strict TDD because we need to do a bit of UI setup that does not fit well with TDD.  First thing is to create the WAKViewController class (extending UIViewController) with a xib file.  This class should have WeatherApiKata as its only target.  On the Xib file drag a UILabel onto the screen somewhere.  Feel free to give it some text like "Loading current temperature..." and center it if you want.  Next, create an outlet for that label in the WAKViewController.h class.
+We're going to start by deviating a bit from strict TDD because we need to do a bit of UI setup that does not fit well with TDD.  First thing is to create the WAKViewController class (extending UIViewController) with a xib file.  This class should have WeatherApiKata as its only target.
+
+On the Xib file drag a UILabel onto the screen somewhere.  Feel free to give it some text like "Loading current temperature..." and center it if you want.  Next, create an outlet for that label in the WAKViewController.h class.
 
 ```
 @interface WAKViewController : UIViewController
