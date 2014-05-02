@@ -593,7 +593,7 @@ As of now, after a successful network call, the WAKWeatherService always passes 
 	
 **1.	Write the test**
 
-Of course we don't want to actually make a network call to test this.  Therefore, we're going to simulate a successful network call by intercepting the success block that is passed into the GET:parameters:success:failure: method and executing it ourselves (we already used this technique in one of our earlier tests).  The only difference is that this time, we're going to create a fake Weather Underground responseObject and plug it into the success block when we run it.  This will allow us to know in advance what the resulting temperature should be and test that the correct temperature is actually returned  If we actually made a network call and got the current temperature from Weather Underground we would have no way to verify that the correct temperature was being passed to our success block because we would not know in advance what temperature would be returned from the network call.
+Of course we don't want to actually make a network call to test this.  Therefore, we're going to simulate a successful network call by intercepting the success block that is passed into the GET:parameters:success:failure: method and executing it ourselves (we already used this technique in one of our earlier tests).  The only difference is that this time, we're going to create a fake Weather Underground responseObject and plug it into the success block when we run it.  This will allow us to know in advance what the resulting temperature should be and test that the correct temperature is actually returned.  If we actually made a network call and got the current temperature from Weather Underground we would have no way to verify that the correct temperature was being passed to our success block because we would not know in advance what temperature would be returned from the network call.
 		
 The first step is to create a fake Weather Underground responseObject that is just like a real response with regard to how it stores the current temperature.  Earlier, we discussed how the json object that the Weather Underground API returned was like a nested dictionary.  In particular, it had an initial "current_observation" key that returned a dictionary.  That "current_observation" dictionary then had a "temp_f" key that returned the fahrenheit temperature that we want.
 		
@@ -632,7 +632,7 @@ it(@"accepts a success block that is executed after a successful network respons
 });
 ```
 
-The only difference is that this time we're going to create a fake responseObject to pass as the second parameter when we run the "blockThatWouldBeExecutedOnSuccessfulNetworkCall".  Then, instead of just testing that the original block was executed, we're going to actually test that the original block received the correct temperature as a parameter.  You could say that this second test renders the first test unnecessary, but both tests served useful purposes in driving the design of our program and in the case of a test failure, it will provide us additional information if only one of the tests fail as opposed to both of the tests failing.  So we are fine with having both of them.
+The only difference is that this time we're going to create a fake responseObject to pass as the second parameter when we run the "blockThatWouldBeExecutedOnSuccessfulNetworkCall".  Then, instead of just testing that the original block was executed, we're going to actually test that the original block received the correct temperature as a parameter.
 				
 ```
 it(@"passes the correct temperature to the received success block after a successful network call", ^{
@@ -674,30 +674,30 @@ void (^newSuccessBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation
 };
 ```
  		
-We need to expand this method to parse a current temperature from the passed in responseObject and then to pass that temperature value into the successBlock.  Let's start by using a little bit of wishful thinking and pretend that we have a method that will parse the current temperature from the response object.  That makes finishing out this block very straightforward.
+We need to expand this method to parse a current temperature from the passed in responseObject and then to pass that temperature value into the successBlock.  This can be implemented by just using the "current_observation" and "temp_f" keys we know should lead us to the fahrenheit temperature and applying them to the response object as if it were a dictionary (as discussed earlier, json response objects behave like arrays and dictionaries and the Weather Underground response in particular behaves like a dictionary).
 	 		
 _WAKWeatherService.m:_
 			
 ```
 void (^newSuccessBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) 
 {
-	/* Not (yet) existing method that parses temperature from responseObject */
-	NSInteger currentTemperature = [self parseFahrenheitTemp:responseObject];
+
+		/* Parse temperature from responseObject, which must be a NSNumber object (as
+		   opposed to an NSInteger) because dictionaries only store objects */
+	NSNumber *currentTempObject = (NSNumber *)responseObject[@"current_observation"][@"temp_f"];
+	
+		/* Convert temperature object to an NSInteger, which is what our successBlock
+		   needs */
+    NSInteger currentTemperature = [currentTempObject integerValue];
+	
+		/* pass parsed currentTemperature to successBlock */
 	successBlock(currentTemperature);
 };
 ```
-	 
-Alright, now all we have to do is actually create the parseCurrentTempFrom: method.  This method can be implemented by just using the "current_observation" and "temp_f" keys we know should lead us to the fahrenheit temperature and applying them to the response object as if it were a dictionary (as discussed earlier, json response objects behave like arrays and dictionaries and the Weather Underground response in particular behaves like a dictionary).
 		
-_WAKWeatherService.m:_
-						
-```
-- (NSNumber *)parseFahrenheitTemp:(id)responseObject {
-	return responseObject[@"current_observation"][@"temp_f"];
-}
-```
-		
-Now if you run the tests, they should all pass.  Note that we could have created a separate test for the parseFahrenheitTemp, but this is an example of testing implementation.  We would have had to make that method public solely so that our test class could see and test it, and we know that the method is working properly because we have a test that confirms that the proper temperature is being returned from the WAKWeatherService object.
+Now if you run the tests, they should all pass.  
+
+Although our earlier test ("accepts a success block that is executed after a successful network response") was important in test-driving our design, it is now essentially redundant redundant of the second test ("passes the correct temperature to the received success block after a successful network call").  If the second test passes, we know the first test would have passed.  Although you could certainly leave the first test in, let's go ahead and take it out since everything it tests is now covered by another test.  That way there is less code for someone to look through and understand in the future.
 			
 Congratulations, you have completed the implementation of a class that performs a network call using the Weather Underground API, parses the current temperature from the API's json response, and executes a passed block (using the current temperature as an argument) that was received from the object requesting the current temperature.  The hard part is done.  Now you just need to implement the WAKViewController to get that current temperature on the screen.  Although I'm going to walk you through that as well, this will involve less discussion and more code since the the UI portion of this program is not the focus of this exercise.
 			
@@ -862,7 +862,8 @@ describe(@"WAKAppDelegate", ^{
         WAKAppDelegate *appDelegate = [[WAKAppDelegate alloc] init];
         
             /* Manually run the application:didFinishLaunchingWithOptions: method,
-               passing nil arguments because our test should be affected by the arguments */
+               passing nil arguments because our test should not be affected by 
+               the arguments */
         [appDelegate application:nil didFinishLaunchingWithOptions:nil];
         
         [[appDelegate.window.rootViewController should] beKindOfClass:[WAKViewController class]];
