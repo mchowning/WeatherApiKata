@@ -22,7 +22,8 @@
 - (void)getCurrentTemp:(void (^)(NSInteger))successBlock {
     
     void (^newSuccessBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSInteger currentTemperature = [self parseFahrenheitTemp:responseObject];
+        NSNumber *currentTempObject = (NSNumber *)responseObject[@"current_observation"][@"temp_f"];
+        NSInteger currentTemperature = [currentTempObject integerValue];
         successBlock(currentTemperature);
     };
     
@@ -30,12 +31,6 @@
            parameters:nil
               success:newSuccessBlock
               failure:nil];
-}
-
-
-- (NSInteger)parseFahrenheitTemp:(id)responseObject {
-    NSNumber *response = responseObject[@"current_observation"][@"temp_f"];
-    return [response integerValue];
 }
 
 @end
