@@ -44,7 +44,7 @@ You will need a free Weather Underground user key to complete this kata.  You ca
 
 # Onward to the kata . . .
 
-[Level 1] (https://github.com/mchowning/WeatherApiKata/tree/level-1)
+[Level 1] (https://github.com/mchowning/WeatherApiKata/tree/level-1) (start here)
 
 [Level 2] (https://github.com/mchowning/WeatherApiKata/tree/level-2)
 
