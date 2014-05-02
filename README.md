@@ -4,15 +4,15 @@ This is a practice exercise for accessing a public API using TDD practices in iO
 
 This exercise is designed to be used as a kata, i.e., as an exercise that is repeated multiple times.  The  kata is broken down into different 'levels'.  The levels start with level 1 and proceed up to level _____.  Each level has its own branch with a unique README.md instructions file dedicated to it.
 
-Level 1 should be your first level because the instructions walk you through completion of the kata step by step and provides all the required code.  Its purpose is to familiarize you with the steps that are necessary to complete the exercise.  As with all the levels, you should not move on to the next level until you feel completely comfortable, almost to the point of being bored, with the current level.  In other words, don't be afraid to repeat the levels, the repitition is what makes this a kata.
+Level 1 should be your first level because the instructions walk you through completion of the kata step by step and provides all the required code.  Its purpose is to familiarize you with the steps that are necessary to complete the exercise.  As with all the levels, you should not move on to the next level until you feel completely comfortable, almost to the point of being bored, with the current level.  In other words, don't be afraid to repeat the levels, the repetition is what makes this a kata.
 
 Level 2 is a definite step up in difficulty. It still guides you through all of the steps necessary to complete the kata, but it no longer provides you with any code.  You have to fill that in yourself.  That doesn't mean you aren't allowed to research online, it just means you should only look back to the code in the Level 1 instructions as a last resort.
 
-Level 3 is only a small step short of completing the kata without any help.  It outlines the general steps needed to complete the kata, but it doesn't give you much detail beyond that.  If you're feeling expecially confident, you may want to consider skipping Level 3.
+Level 3 is only a small step short of completing the kata without any help.  It outlines the general steps needed to complete the kata, but it doesn't give you much detail beyond that.  If you're feeling especially confident, you may want to consider skipping Level 3.
 
 In Level 4 you throw away these instructions because you don't need them anymore.  Trust me, you're going to get there sooner than you think!
 
-This is very much a work in progress.  If you find anything confusing or think there is a mistake, then there's probably something that needs to be improved.  Let me know about it or, even beter, send me a pull request!
+This is very much a work in progress.  If you find anything confusing or think there is a mistake, then there's probably something that needs to be improved.  Let me know about it or, even better, send me a pull request!
 
 ## A few things to keep in mind
 
@@ -28,7 +28,7 @@ This is very much a work in progress.  If you find anything confusing or think t
 
 ## Setup
 
-The setup for this project involves nothing more than an empty XCode iPhone application and a pod install with AFNetworking and Kiwi. All you need to do is have cocoa pods installed on your machine (if you don't, go [here] (http://cocoapods.org)), and run a pod install to install the Kiwi and AFNetworking dependencies (you can use the Podfile in the attached project if you want).  Then make sure you open the project using the WatherApiKata.xcworkspace file so that the pods you just installed are used (don't use the .xcodeproj file to open your project anymore!).  
+The setup for this project involves nothing more than an empty XCode iPhone application and a pod install with AFNetworking and Kiwi. All you need to do is have cocoa pods installed on your machine (if you don't, go [here] (http://cocoapods.org)), set up a new WeatherApiKata project, and run a pod install to install the Kiwi and AFNetworking dependencies (you can use the Podfile in the attached project if you want).  Then make sure you open the project using the WatherApiKata.xcworkspace file so that the pods you just installed are used (don't use the .xcodeproj file to open your project anymore!).  
 
 As you work through this exercise, you should refer to any documentation that you find helpful, especially:
 
