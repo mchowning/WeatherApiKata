@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		24381E8D19108F7E00F3D9D3 /* WAKViewControllerSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 24381E8C19108F7E00F3D9D3 /* WAKViewControllerSpec.m */; };
-		24381E8F19117C6100F3D9D3 /* WAKAppDelegateSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 24381E8E19117C6100F3D9D3 /* WAKAppDelegateSpec.m */; };
-		2442BCB4190DFFEA00D9ED33 /* WAKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2442BCB2190DFFEA00D9ED33 /* WAKViewController.m */; };
-		2442BCB5190DFFEA00D9ED33 /* WAKViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2442BCB3190DFFEA00D9ED33 /* WAKViewController.xib */; };
 		245B5BB4190CA34F00536C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245B5BB3190CA34F00536C33 /* Foundation.framework */; };
 		245B5BB6190CA34F00536C33 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245B5BB5190CA34F00536C33 /* CoreGraphics.framework */; };
 		245B5BB8190CA34F00536C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245B5BB7190CA34F00536C33 /* UIKit.framework */; };
@@ -22,8 +18,6 @@
 		245B5BCE190CA34F00536C33 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245B5BB3190CA34F00536C33 /* Foundation.framework */; };
 		245B5BCF190CA34F00536C33 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 245B5BB7190CA34F00536C33 /* UIKit.framework */; };
 		245B5BD7190CA35000536C33 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 245B5BD5190CA35000536C33 /* InfoPlist.strings */; };
-		245B5BE5190CB02700536C33 /* WAKWeatherServiceSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = 245B5BE4190CB02700536C33 /* WAKWeatherServiceSpec.m */; };
-		245B5BE8190CB0A200536C33 /* WAKWeatherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 245B5BE7190CB0A200536C33 /* WAKWeatherService.m */; };
 		4E0673E2B0BB473D941A4949 /* libPods-WeatherApiKata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A88418DDE65D458185FF6930 /* libPods-WeatherApiKata.a */; };
 		8AE49EE51BDC4561AF28B86A /* libPods-WeatherApiKataTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAF8D1651E94E8DAE16BE44 /* libPods-WeatherApiKataTests.a */; };
 /* End PBXBuildFile section */
@@ -39,11 +33,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		24381E8C19108F7E00F3D9D3 /* WAKViewControllerSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAKViewControllerSpec.m; sourceTree = "<group>"; };
-		24381E8E19117C6100F3D9D3 /* WAKAppDelegateSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAKAppDelegateSpec.m; sourceTree = "<group>"; };
-		2442BCB1190DFFEA00D9ED33 /* WAKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WAKViewController.h; sourceTree = "<group>"; };
-		2442BCB2190DFFEA00D9ED33 /* WAKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAKViewController.m; sourceTree = "<group>"; };
-		2442BCB3190DFFEA00D9ED33 /* WAKViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WAKViewController.xib; sourceTree = "<group>"; };
 		245B5BB0190CA34F00536C33 /* WeatherApiKata.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApiKata.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		245B5BB3190CA34F00536C33 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		245B5BB5190CA34F00536C33 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -59,9 +48,6 @@
 		245B5BCC190CA34F00536C33 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		245B5BD4190CA35000536C33 /* WeatherApiKataTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "WeatherApiKataTests-Info.plist"; sourceTree = "<group>"; };
 		245B5BD6190CA35000536C33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		245B5BE4190CB02700536C33 /* WAKWeatherServiceSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAKWeatherServiceSpec.m; sourceTree = "<group>"; };
-		245B5BE6190CB0A200536C33 /* WAKWeatherService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WAKWeatherService.h; sourceTree = "<group>"; };
-		245B5BE7190CB0A200536C33 /* WAKWeatherService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAKWeatherService.m; sourceTree = "<group>"; };
 		3AAF8D1651E94E8DAE16BE44 /* libPods-WeatherApiKataTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApiKataTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A8009C5C2BC40E6B31F8867 /* Pods-WeatherApiKata.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApiKata.xcconfig"; path = "Pods/Pods-WeatherApiKata.xcconfig"; sourceTree = "<group>"; };
 		A88418DDE65D458185FF6930 /* libPods-WeatherApiKata.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApiKata.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,11 +119,6 @@
 			children = (
 				245B5BC2190CA34F00536C33 /* WAKAppDelegate.h */,
 				245B5BC3190CA34F00536C33 /* WAKAppDelegate.m */,
-				2442BCB1190DFFEA00D9ED33 /* WAKViewController.h */,
-				2442BCB2190DFFEA00D9ED33 /* WAKViewController.m */,
-				2442BCB3190DFFEA00D9ED33 /* WAKViewController.xib */,
-				245B5BE6190CB0A200536C33 /* WAKWeatherService.h */,
-				245B5BE7190CB0A200536C33 /* WAKWeatherService.m */,
 				245B5BC5190CA34F00536C33 /* Images.xcassets */,
 				245B5BBA190CA34F00536C33 /* Supporting Files */,
 			);
@@ -158,9 +139,6 @@
 		245B5BD2190CA35000536C33 /* WeatherApiKataTests */ = {
 			isa = PBXGroup;
 			children = (
-				245B5BE4190CB02700536C33 /* WAKWeatherServiceSpec.m */,
-				24381E8C19108F7E00F3D9D3 /* WAKViewControllerSpec.m */,
-				24381E8E19117C6100F3D9D3 /* WAKAppDelegateSpec.m */,
 				245B5BD3190CA35000536C33 /* Supporting Files */,
 			);
 			path = WeatherApiKataTests;
@@ -255,7 +233,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2442BCB5190DFFEA00D9ED33 /* WAKViewController.xib in Resources */,
 				245B5BBE190CA34F00536C33 /* InfoPlist.strings in Resources */,
 				245B5BC6190CA34F00536C33 /* Images.xcassets in Resources */,
 			);
@@ -339,8 +316,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2442BCB4190DFFEA00D9ED33 /* WAKViewController.m in Sources */,
-				245B5BE8190CB0A200536C33 /* WAKWeatherService.m in Sources */,
 				245B5BC4190CA34F00536C33 /* WAKAppDelegate.m in Sources */,
 				245B5BC0190CA34F00536C33 /* main.m in Sources */,
 			);
@@ -350,9 +325,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24381E8F19117C6100F3D9D3 /* WAKAppDelegateSpec.m in Sources */,
-				245B5BE5190CB02700536C33 /* WAKWeatherServiceSpec.m in Sources */,
-				24381E8D19108F7E00F3D9D3 /* WAKViewControllerSpec.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

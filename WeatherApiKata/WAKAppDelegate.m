@@ -7,7 +7,6 @@
 //
 
 #import "WAKAppDelegate.h"
-#import "WAKViewController.h"
 
 @implementation WAKAppDelegate
 
@@ -15,7 +14,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.window.rootViewController = [[WAKViewController alloc] init];
+    // fill in additional implementation here
     
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
