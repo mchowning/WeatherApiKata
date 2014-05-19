@@ -26,6 +26,8 @@
 		245B5BE8190CB0A200536C33 /* WAKWeatherService.m in Sources */ = {isa = PBXBuildFile; fileRef = 245B5BE7190CB0A200536C33 /* WAKWeatherService.m */; };
 		4E0673E2B0BB473D941A4949 /* libPods-WeatherApiKata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A88418DDE65D458185FF6930 /* libPods-WeatherApiKata.a */; };
 		8AE49EE51BDC4561AF28B86A /* libPods-WeatherApiKataTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAF8D1651E94E8DAE16BE44 /* libPods-WeatherApiKataTests.a */; };
+		C96916A319299D1300B34FF4 /* SampleResponse.json in Resources */ = {isa = PBXBuildFile; fileRef = C96916A219299D1300B34FF4 /* SampleResponse.json */; };
+		C98A88FB19293D4A00E08AAE /* WAKWeatherServiceOHHTTPStubsSpec.m in Sources */ = {isa = PBXBuildFile; fileRef = C98A88FA19293D4A00E08AAE /* WAKWeatherServiceOHHTTPStubsSpec.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +67,8 @@
 		3AAF8D1651E94E8DAE16BE44 /* libPods-WeatherApiKataTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApiKataTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A8009C5C2BC40E6B31F8867 /* Pods-WeatherApiKata.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApiKata.xcconfig"; path = "Pods/Pods-WeatherApiKata.xcconfig"; sourceTree = "<group>"; };
 		A88418DDE65D458185FF6930 /* libPods-WeatherApiKata.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WeatherApiKata.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C96916A219299D1300B34FF4 /* SampleResponse.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = SampleResponse.json; sourceTree = "<group>"; };
+		C98A88FA19293D4A00E08AAE /* WAKWeatherServiceOHHTTPStubsSpec.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WAKWeatherServiceOHHTTPStubsSpec.m; sourceTree = "<group>"; };
 		DC3012D4AD5448CBB83E161F /* Pods-WeatherApiKataTests.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherApiKataTests.xcconfig"; path = "Pods/Pods-WeatherApiKataTests.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,7 +162,9 @@
 		245B5BD2190CA35000536C33 /* WeatherApiKataTests */ = {
 			isa = PBXGroup;
 			children = (
+				C96916A119299CED00B34FF4 /* Files */,
 				245B5BE4190CB02700536C33 /* WAKWeatherServiceSpec.m */,
+				C98A88FA19293D4A00E08AAE /* WAKWeatherServiceOHHTTPStubsSpec.m */,
 				24381E8C19108F7E00F3D9D3 /* WAKViewControllerSpec.m */,
 				24381E8E19117C6100F3D9D3 /* WAKAppDelegateSpec.m */,
 				245B5BD3190CA35000536C33 /* Supporting Files */,
@@ -173,6 +179,14 @@
 				245B5BD5190CA35000536C33 /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C96916A119299CED00B34FF4 /* Files */ = {
+			isa = PBXGroup;
+			children = (
+				C96916A219299D1300B34FF4 /* SampleResponse.json */,
+			);
+			name = Files;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -265,6 +279,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C96916A319299D1300B34FF4 /* SampleResponse.json in Resources */,
 				245B5BD7190CA35000536C33 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -350,6 +365,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C98A88FB19293D4A00E08AAE /* WAKWeatherServiceOHHTTPStubsSpec.m in Sources */,
 				24381E8F19117C6100F3D9D3 /* WAKAppDelegateSpec.m in Sources */,
 				245B5BE5190CB02700536C33 /* WAKWeatherServiceSpec.m in Sources */,
 				24381E8D19108F7E00F3D9D3 /* WAKViewControllerSpec.m in Sources */,

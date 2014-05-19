@@ -51,7 +51,7 @@
 		"local_tz_offset":"-0400",
 		"weather":"Clear",
 		"temperature_string":"60.7 F (15.9 C)",
-		"temp_f":60.7,
+		"temp_f":50,
 		"temp_c":15.9,
 		"relative_humidity":"42%",
 		"wind_string":"From the SW at 5.0 MPH Gusting to 10.0 MPH",
