@@ -25,7 +25,7 @@ SPEC_BEGIN(WAKWeatherServiceOHHTTPStubsSpec)
                 
                 return [[request.URL absoluteString]
                         isEqualToString:@"http://api.wunderground.com/api/ee4ed185d47c8af2/conditions/q/MI/Detroit.json"];
-                
+            
             } withStubResponse:^OHHTTPStubsResponse*(NSURLRequest *request) {
                 NSString *filePath = OHPathForFileInBundle(@"SampleResponse.json", nil);
                 return [OHHTTPStubsResponse responseWithFileAtPath:filePath
@@ -52,6 +52,8 @@ SPEC_BEGIN(WAKWeatherServiceOHHTTPStubsSpec)
                 // amount of time to make sure there is plenty of extra time.  Giving extra time, does not slow
                 // a successful test down, it just slows down your test if it is failing (because then it waits
                 // for the full duration of time that you provide).
+            
+            [OHHTTPStubs removeAllStubs];
         });
     });
 	
