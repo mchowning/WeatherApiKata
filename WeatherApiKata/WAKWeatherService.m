@@ -19,12 +19,12 @@
     return self;
 }
 
-- (void)getCurrentTemp:(void (^)(NSInteger))successBlock {
+- (void)getCurrentTemp:(void (^)(NSInteger))successBlockFromViewController {
     
     void (^newSuccessBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
         NSNumber *currentTempObject = (NSNumber *)responseObject[@"current_observation"][@"temp_f"];
         NSInteger currentTemperature = [currentTempObject integerValue];
-        successBlock(currentTemperature);
+        successBlockFromViewController(currentTemperature);
     };
     
     [self.manager GET:@"http://api.wunderground.com/api/ee4ed185d47c8af2/conditions/q/MI/Detroit.json"
