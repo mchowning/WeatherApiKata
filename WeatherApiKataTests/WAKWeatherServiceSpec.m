@@ -1,11 +1,3 @@
-//
-//  WAKWeatherServiceSpec.m
-//  WeatherApiKata
-//
-//  Created by Matt Chowning on 4/26/14.
-//  Copyright (c) 2014 Detroit Labs. All rights reserved.
-//
-
 #import <Kiwi/Kiwi.h>
 #import "WAKWeatherService.h"
 
