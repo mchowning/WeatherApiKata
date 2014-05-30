@@ -18,23 +18,10 @@ describe(@"WAKWeatherService", ^{
         weatherService = [[WAKWeatherService alloc] init];
     });
     
-    it(@"has a getCurrentTemp: method", ^{
-        [[weatherService should] respondToSelector:@selector(getCurrentTemp:)];
-    });
-    
-    it(@"has an AFHTTPRequestOperationManager object stored as a property", ^{
-        [[weatherService.manager should] beKindOfClass:[AFHTTPRequestOperationManager class]];
-    });
-    
     context(@"when its getCurrentTemp method is called", ^{
         
         beforeEach(^{
             weatherService.manager = [AFHTTPRequestOperationManager nullMock];
-        });
-        
-        it(@"calls GET:parameters:success:failure: on its manager property", ^{
-            [[weatherService.manager should] receive:@selector(GET:parameters:success:failure:)];
-            [weatherService getCurrentTemp:nil];
         });
         
         it(@"passes the proper url to the network request", ^{
@@ -75,7 +62,6 @@ describe(@"WAKWeatherService", ^{
             
             [[theValue(temperaturePassedToBlockThatUpdatesScreen) should] equal:theValue(currentTemp)];
         });
-        
     });
 });
 	

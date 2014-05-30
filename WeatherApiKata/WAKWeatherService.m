@@ -21,15 +21,17 @@
 
 - (void)getCurrentTemp:(void (^)(NSInteger))successBlockFromViewController {
     
-    void (^newSuccessBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSNumber *currentTempObject = (NSNumber *)responseObject[@"current_observation"][@"temp_f"];
-        NSInteger currentTemperature = [currentTempObject integerValue];
-        successBlockFromViewController(currentTemperature);
-    };
+    void (^successBlockForNetworkCall)(AFHTTPRequestOperation *, id) =
+            ^(AFHTTPRequestOperation *operation, id responseObject)
+        {
+            NSNumber *currentTempObject = (NSNumber *)responseObject[@"current_observation"][@"temp_f"];
+            NSInteger currentTemperature = [currentTempObject integerValue];
+            successBlockFromViewController(currentTemperature);
+        };
     
     [self.manager GET:@"http://api.wunderground.com/api/ee4ed185d47c8af2/conditions/q/MI/Detroit.json"
            parameters:nil
-              success:newSuccessBlock
+              success:successBlockForNetworkCall
               failure:nil];
 }
 
