@@ -14,7 +14,7 @@ SPEC_BEGIN(WAKWeatherServiceOHHTTPStubsSpec)
 
     describe(@"WAKWeatherService", ^{
         
-        it(@"should retrieve the correct temperature", ^{
+        it(@"should retrieve the correct temperature when its getCurrentTemp method is called", ^{
             
             
             
